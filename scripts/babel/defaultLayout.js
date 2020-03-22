@@ -52,7 +52,7 @@ const addLayoutToFile = (parse, program, state) => {
   }
 };
 
-module.exports = function({ parse }) {
+module.exports = function({ types: t, parse }) {
   return {
     name: "next-default-layout",
     visitor: {
