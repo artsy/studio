@@ -1,8 +1,13 @@
-export default page => {
+import { Box } from "@artsy/palette";
+import { BareHeader } from "../components/BareHeader";
+
+const DashboardLayout = (page: JSX.Element, pageProps) => {
   return (
-    <>
-      <h1>Dashboard</h1>
+    <Box my={2} mx={2} height="100%">
+      <BareHeader label={pageProps.title} mb={3} />
       {page}
-    </>
+    </Box>
   );
 };
+
+export default DashboardLayout;
