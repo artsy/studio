@@ -16,7 +16,7 @@ export const SuggestedPost: React.FC<SuggestedPostCardProps> = ({
     <Flex flexDirection="column" {...flexProps}>
       <Sans size="3t">{title}</Sans>
       <Sans size="1" color="black60">
-        by {suggestedBy}
+        1 day ago by {suggestedBy}
       </Sans>
     </Flex>
   );
