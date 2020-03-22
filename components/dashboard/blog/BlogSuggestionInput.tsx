@@ -14,8 +14,8 @@ const SuggestionTransitionDelayInMs = 6500;
  * in a random order.
  */
 const promptingQuestions = [
-  "What have you been struggling with lately?",
   "What have you learned recently?",
+  "What have you been struggling with lately?",
   "What's something you wish you would've known 3 months ago?",
   "What's an open source project we've written or used that is cool?",
   "What do you find about our culture that is uniquely beneficial?",
@@ -24,10 +24,9 @@ const promptingQuestions = [
 
 type InputProps = React.ComponentProps<typeof Input>;
 export const BlogSuggestionInput = (props: InputProps) => {
-  const [remainingPhrases, setRemainingPhrases] = useState(
-    shuffle(promptingQuestions)
-  );
+  const [remainingPhrases, setRemainingPhrases] = useState(promptingQuestions);
   useEffect(() => {
+    setRemainingPhrases(shuffle(promptingQuestions));
     let interval = setInterval(() => {
       if (remainingPhrases.length <= 1) {
         setRemainingPhrases(shuffle(promptingQuestions));
