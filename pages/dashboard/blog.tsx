@@ -13,11 +13,10 @@ export async function getServerSideProps() {
 }
 
 const OutlinedSection = styled(Flex)`
-  border: 1px solid ${color("black10")};
   flex-direction: column;
   height: 100%;
   width: 100%;
-  padding: ${space(2)}px;
+  /* padding: ${space(2)}px; */
 `;
 
 const suggestedPosts = [
@@ -30,7 +29,7 @@ const suggestedPosts = [
 const Blog = () => {
   return (
     <Flex justifyContent="stretch" height="100%">
-      <OutlinedSection mr={1}>
+      <OutlinedSection border="1px solid black10" mr={2}>
         <BlogSuggestionInput />
         <Sans size="5" mt={2} mb={1}>
           Suggested Posts

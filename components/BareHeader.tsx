@@ -19,7 +19,7 @@ export const BareHeader: React.FC<BareHeaderProps> = ({
       <Flex alignItems="center">
         <ArtsyMarkIcon width={size} height={size} />
         {label && (
-          <Sans size={6} weight="medium" ml={1}>
+          <Sans size={6} weight="medium" ml={2}>
             {label}
           </Sans>
         )}

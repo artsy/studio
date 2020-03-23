@@ -5639,6 +5639,11 @@ rc-util@^4.0.4, rc-util@^4.15.3, rc-util@^4.4.0:
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.1.0"
 
+react-bytesize-icons@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/react-bytesize-icons/-/react-bytesize-icons-0.11.1.tgz#63451898373bed1dcd6b80e5589035ca7d6c2102"
+  integrity sha512-mLi2lBlnMIxXnEgYdnvFI0mrRO6EPuPuQ8Gl6VjA1Z2/If1liey6urXD4XYBpeOzsPgTjKqrqyk+MzUkQM72Lg==
+
 react-dom@16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
