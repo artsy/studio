@@ -4,7 +4,7 @@ import { Sidebar } from "../components/dashboard/Sidebar";
 
 const DashboardLayout = (page: JSX.Element, pageProps) => {
   return (
-    <Box my={0.5} mx={2} height="100%">
+    <Box my={2} mx={2} height="100%">
       <BareHeader label={pageProps.title} message={pageProps.message} />
       <Flex pt={2}>
         <Sidebar />
