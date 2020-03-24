@@ -29,11 +29,11 @@ const helpfulLinks: LinkConfig[] = [
   },
   {
     text: "Who is New?",
-    href: "/who-is-new"
+    href: "/team/who-is-new"
   },
   {
     text: "Did you know?",
-    href: "/did-you-know"
+    href: "/team/did-you-know"
   }
 ];
 
