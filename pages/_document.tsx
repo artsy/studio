@@ -27,6 +27,11 @@ class MyDocument extends Document {
         <Head>
           <GlobalStyles />
           <style>{`
+            * {
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+            }
+
             #__next {
               height: 100%;
               padding: 0;

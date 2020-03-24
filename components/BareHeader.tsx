@@ -1,4 +1,11 @@
-import { ArtsyMarkIcon, Sans, Flex, Message, space } from "@artsy/palette";
+import {
+  ArtsyMarkIcon,
+  Sans,
+  Flex,
+  FlexProps,
+  Message,
+  space
+} from "@artsy/palette";
 import styled from "styled-components";
 
 const LOGO_SIZE = 36;
@@ -9,7 +16,6 @@ const HeaderMessage = styled(Message)`
   margin-bottom: -${space(1)}px;
 `;
 
-type FlexProps = React.ComponentProps<typeof Flex>;
 interface BareHeaderProps extends FlexProps {
   label?: string;
   message?: string;

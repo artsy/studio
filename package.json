@@ -17,11 +17,15 @@
     "react-dom": "16.13.1"
   },
   "devDependencies": {
+    "@mdx-js/react": "^1.5.7",
     "@types/node": "^13.9.2",
     "@types/react": "^16.9.23",
+    "@types/styled-components": "4.0.2",
+    "@types/styled-system": "^5.1.9",
     "babel-plugin-styled-components": "^1.10.7",
     "hasura-cli": "^1.1.0",
     "styled-components": "4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "typescript-styled-plugin": "^0.15.0"
   }
 }
