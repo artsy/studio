@@ -1,8 +1,6 @@
-# Artsy Studio
-
-_This is mostly a thought exercise, proceed with caution_
-
-Every artist needs a space to create. This is ours.
+<p align="center">
+<img width="382" alt="image" src="https://user-images.githubusercontent.com/3087225/77609769-4877a700-6ef7-11ea-9b9a-59711e3964b6.png">
+</p>
 
 We apply keystrokes instead of brushstrokes and paint in pixels instead of pigments so our studio is adapted to this medium.
 
