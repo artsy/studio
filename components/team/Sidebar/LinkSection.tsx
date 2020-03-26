@@ -22,13 +22,19 @@ export const LinkSection = ({ title, links }: LinkSectionProps) => {
       {links.map(link => {
         return (
           <Flex key={link.href} alignItems="center">
-            <RouteLink href={link.href} passHref>
-              <Link underlineBehavior="hover" mr={0.5}>
-                <Serif size="4">{link.text}</Serif>
-              </Link>
-            </RouteLink>
-            {link.external && (
-              <External width="10" height="10" color={color("black60")} />
+            {link.external ? (
+              <>
+                <Link underlineBehavior="hover" mr={0.5} href={link.href}>
+                  <Serif size="4">{link.text}</Serif>
+                </Link>
+                <External width="10" height="10" color={color("black60")} />
+              </>
+            ) : (
+              <RouteLink href={link.href} passHref>
+                <Link underlineBehavior="hover" mr={0.5}>
+                  <Serif size="4">{link.text}</Serif>
+                </Link>
+              </RouteLink>
             )}
             {link.count && (
               <Serif size="4" color="black30">

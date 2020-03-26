@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv next dev",
     "dev:hasura": "docker-compose up -d && hasura console",
     "build": "next build",
     "start": "next start"
@@ -26,7 +26,7 @@
     "@types/node-fetch": "^2.5.5",
     "@types/react": "^16.9.23",
     "@types/styled-components": "4.0.2",
-    "@types/styled-system": "^5.1.9",
+    "@types/styled-system": "3",
     "babel-plugin-styled-components": "^1.10.7",
     "dotenv": "^8.2.0",
     "dotenv-cli": "^3.1.0",
