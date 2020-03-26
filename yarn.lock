@@ -44,10 +44,10 @@
   dependencies:
     cross-fetch "3.0.4"
 
-"@artsy/palette@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@artsy/palette/-/palette-7.3.0.tgz#ac79fe03640b0e76d4134123adc357e0aade16e1"
-  integrity sha512-JHd/YWBvsXVsM7INMNtz3gcopX9dsqcfoP0Vc5UyN2hxSaD46L2aKaKqRahVtgAEKoLpQcBTRPwoZkUlTymjBA==
+"@artsy/palette@^7.5.0":
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/@artsy/palette/-/palette-7.5.0.tgz#2a677535bef87f72f491d5adf2c3ed3eb5fc661b"
+  integrity sha512-vzR3VugXEg5nqNyk2KRQvtOwHgsnTEGLRIE/oMVhn3v3FAEcB2lWGuIxpixZxtAZ6kKRfI36/MkPVCeK1W/x6w==
   dependencies:
     babel-plugin-styled-components "^1.10.0"
     d3-interpolate "^1.3.2"

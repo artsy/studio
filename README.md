@@ -1,12 +1,12 @@
-# Artsy Studio
+<p align="center">
+<img width="565" alt="image" src="https://user-images.githubusercontent.com/3087225/77610040-f97e4180-6ef7-11ea-9881-093606ff0157.png">
+</p>
 
-_This is mostly a thought exercise, proceed with caution_
-
-Every artist needs a studio and this is ours.
+---
 
 We apply keystrokes instead of brushstrokes and paint in pixels instead of pigments so our studio is adapted to this medium.
 
-This is the space where we can put our tools and guide our thoughts to assist us in getting to the next level.
+This is the space where we can put our tools and guide our thoughts to assist us in our mission to bring more art to the world.
 
 ## Getting Started
 
@@ -17,8 +17,6 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
 ## Learn More
 
