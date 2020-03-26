@@ -2,7 +2,7 @@
 
 _This is mostly a thought exercise, proceed with caution_
 
-Every artist needs a studio and this is ours.
+Every artist needs a space to create. This is ours.
 
 We apply keystrokes instead of brushstrokes and paint in pixels instead of pigments so our studio is adapted to this medium.
 

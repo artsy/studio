@@ -15,7 +15,7 @@ const Home = () => (
         <H1 mb={1}>Studio</H1>
       </Flex>
       <Flex justifyContent="center" alignItems="center">
-        <Sans size={3}>Every artist needs a studio.&nbsp;</Sans>
+        <Sans size={3}>Every artist needs a space to create.&nbsp;</Sans>
         <Sans size={3}>This is ours.</Sans>
       </Flex>
     </Flex>
