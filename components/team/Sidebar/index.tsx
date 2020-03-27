@@ -46,12 +46,13 @@ export const Sidebar = () => {
   return (
     <SidebarContainer
       flexDirection="column"
+      flexShrink="0"
       width="450px"
       height="100%"
       px={3}
       mr={3}
     >
-      <Box position="fixed" bg="white">
+      <Box position="fixed" bg="white" width="390px">
         <Sans size="3" weight="medium" my={1}>
           Team Navigator
         </Sans>
