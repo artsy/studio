@@ -1,16 +1,57 @@
 import useSWR from "swr";
-import { Avatar, Serif, Flex, Box, CSSGrid } from "@artsy/palette";
+import {
+  Avatar,
+  Box,
+  Serif,
+  Flex,
+  UserSingleIcon,
+  color
+} from "@artsy/palette";
 import fetch from "node-fetch";
+import style from "styled-components";
+
+const AvatarContainer = style(Box)`
+  flex-shrink: 0;
+`;
 
 const location = ({ city, floor }) =>
   [city, floor && `Fl. ${floor}`].filter(v => v).join(", ");
+
+const AvatarFallback = ({ diameter }) => (
+  <Flex
+    width={diameter}
+    height={diameter}
+    borderRadius={diameter}
+    background={color("black10")}
+    alignItems="center"
+    justifyContent="center"
+  >
+    <UserSingleIcon
+      fill="black30"
+      height={parseInt(diameter) - 20}
+      width={parseInt(diameter) - 20}
+    />
+  </Flex>
+);
 
 const TeamMember = props => {
   const { member } = props;
 
   return (
-    <Flex key={member.name + member.title} width="390px" mb={3}>
-      <Avatar size="md" src={member.headshot} />
+    <Flex width="390px" mb={3}>
+      <AvatarContainer>
+        {member.headshot ? (
+          <Avatar
+            size="md"
+            src={member.headshot}
+            renderFallback={({ diameter }) => (
+              <AvatarFallback diameter={diameter} />
+            )}
+          />
+        ) : (
+          <AvatarFallback diameter={"100px"} />
+        )}
+      </AvatarContainer>
       <Flex flexDirection="column" ml={1}>
         <Serif size="4" weight="semibold">
           {member.name}
@@ -34,7 +75,7 @@ const TeamNav = () => {
   return (
     <Flex flexWrap="wrap">
       {data.map(member => (
-        <TeamMember member={member} />
+        <TeamMember key={member.name + member.title} member={member} />
       ))}
     </Flex>
   );

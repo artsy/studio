@@ -44,10 +44,10 @@
   dependencies:
     cross-fetch "3.0.4"
 
-"@artsy/palette@^7.5.1":
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/@artsy/palette/-/palette-7.5.1.tgz#ae1004dc835760c827fb343eca63e0037791c6f4"
-  integrity sha512-LVsLC+dO2iRNcTlVWfHhgM/8dZCKkvxjmN4wsRK06Mlb7rBUwQfxPbobBCiEXIjl7L115ab5lhk5NG7EZA/G8g==
+"@artsy/palette@7.6.0-canary.660.10061.0":
+  version "7.6.0-canary.660.10061.0"
+  resolved "https://registry.yarnpkg.com/@artsy/palette/-/palette-7.6.0-canary.660.10061.0.tgz#188b9305489bcda7bc1a3603bf7b78ee16f70eed"
+  integrity sha512-ndLonFM+KCVdv2hMrH2WXyd9MjlP7BPhvqrB9KRjQfvcFy3kVDcZ63l+TzAla+xYLla9Fl1tC+c8Fg3uOH4H/w==
   dependencies:
     babel-plugin-styled-components "^1.10.0"
     d3-interpolate "^1.3.2"
@@ -4112,6 +4112,14 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
+isotopes@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/isotopes/-/isotopes-0.5.1.tgz#429571480320c26bb7d69390e8327a8550919ea9"
+  integrity sha512-4PyfxRpdcybIDjcVftwKAp63grczC4g8wSi4wQ8WBYXh7Jx/C7Vh9j3W5ScWPn+9T7bcHWl7b3m0ZO2vl6zEJA==
+  dependencies:
+    lodash "^4.17.11"
+    squel "^5.12.2"
+
 jest-worker@24.9.0:
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-24.9.0.tgz#5dbfdb5b2d322e98567898238a9697bcce67b3e5"
@@ -6793,6 +6801,11 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+
+squel@^5.12.2:
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/squel/-/squel-5.13.0.tgz#09cc73e91f0d0e326482605ee76e3b7ac881ddf6"
+  integrity sha512-Fzd8zqbuqNwzodO3yO6MkX8qiDoVBuwqAaa3eKNz4idhBf24IQHbatBhLUiHAGGl962eGvPVRxzRuFWZlSf49w==
 
 ssri@^6.0.1:
   version "6.0.1"

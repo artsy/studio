@@ -3,13 +3,7 @@ import fetch from "node-fetch";
 import { NowRequest, NowResponse } from "@now/node";
 import S3 from "aws-sdk/clients/s3";
 import stream from "stream";
-import crypto from "crypto";
-
-const hash = (source: string) =>
-  crypto
-    .createHash("md5")
-    .update(source)
-    .digest("hex");
+import { hash } from "../../../../lib/hash";
 
 const streamToS3 = (
   s3: S3,
@@ -31,26 +25,43 @@ export default async (req: NowRequest, res: NowResponse) => {
   const s3 = new S3();
   const { url } = req.query;
   if (typeof url !== "string") {
-    res.status(422).end();
+    res.status(422).send("No url provided");
+    res.end();
     return;
   }
+  const imageUrl = new URL(url);
+  imageUrl.search = "?raw=1";
 
   const resizer = sharp()
     .rotate()
-    .resize(100, 100, {
-      position: sharp.strategy.attention
-    });
+    .resize(200, 200);
 
-  fetch(url).then(imgRes => {
-    imgRes.body.pipe(resizer).pipe(
-      streamToS3(s3, `team/${hash(url)}.jpg`, (err, data) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Unable to process image");
-        } else {
-          res.status(200).send(data.Location);
-        }
-      })
-    );
-  });
+  await fetch(imageUrl.href)
+    .then(imgRes => {
+      if (imgRes.status >= 400) {
+        res.status(404).send(`${imageUrl} couldn't be found`);
+        res.end();
+        return;
+      }
+      imgRes.body.pipe(resizer).pipe(
+        streamToS3(
+          s3,
+          `team/${hash(imageUrl.href)}.${imageUrl.pathname.split(".").pop()}`,
+          (err, data) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send("Unable to process image");
+            } else {
+              res.status(200).send(data.Location);
+            }
+            res.end();
+          }
+        )
+      );
+    })
+    .catch(err => {
+      console.error("Could not resise image:", err);
+      res.status(422).send("Unable to process image" + err);
+      res.end();
+    });
 };
