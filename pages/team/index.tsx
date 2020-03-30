@@ -5,10 +5,22 @@ import {
   Serif,
   Flex,
   UserSingleIcon,
-  color
+  color,
+  Separator
 } from "@artsy/palette";
 import fetch from "node-fetch";
 import style from "styled-components";
+import { GetServerSideProps } from "next";
+import { H1 } from "../../components/Typography";
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { host } = req.headers;
+  const url = host.includes("http") ? host : `http://${host}`;
+  const data = await fetcher(`${url}/api/team/all`);
+  return { props: { data } };
+};
 
 const AvatarContainer = style(Box)`
   flex-shrink: 0;
@@ -65,19 +77,39 @@ const TeamMember = props => {
   );
 };
 
-const TeamNav = () => {
-  const { data, error } = useSWR("/api/team/all", url =>
-    fetch(url).then(res => res.json())
-  );
+const TeamNav = props => {
+  const initialData = props.data;
+  const { data, error } = useSWR("/api/team/all", fetcher, { initialData });
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
+  const group = {};
+  data.forEach(member => {
+    const firstLetter = member.name[0];
+    if (!group[firstLetter]) {
+      group[firstLetter] = [];
+    }
+    group[firstLetter].push(member);
+  });
+
+  console.log(group);
+
   return (
-    <Flex flexWrap="wrap">
-      {data.map(member => (
-        <TeamMember key={member.name + member.title} member={member} />
-      ))}
-    </Flex>
+    <section>
+      {Object.entries(group).map(([firstLetter, members]: [string, any[]]) => {
+        return (
+          <Box key={`group-${firstLetter}`} width="100%">
+            <H1>{firstLetter}</H1>
+            <Flex flexWrap="wrap">
+              {members.map(member => (
+                <TeamMember key={member.name + member.title} member={member} />
+              ))}
+            </Flex>
+            <Separator mt={3} />
+          </Box>
+        );
+      })}
+    </section>
   );
 };
 
