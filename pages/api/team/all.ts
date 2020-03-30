@@ -40,8 +40,16 @@ export default async (req: NowRequest, res: NowResponse) => {
       .then(csvContent => csv().fromString(csvContent))
   ]);
 
+  const seen = new Set();
   const promisedMembers = parsed
-    .filter(member => !!member.name)
+    .filter(member => {
+      if (member.name && !seen.has(member.name)) {
+        seen.add(member.name);
+        return true;
+      }
+      return false;
+    })
+    .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
     .map(async member => {
       if (member.headshot) {
         const headshotHash = hash(member.headshot);
