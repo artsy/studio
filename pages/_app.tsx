@@ -1,16 +1,14 @@
 // @ts-ignore
 import App from "next/app";
 import React from "react";
-import { Theme, Serif, Sans } from "@artsy/palette";
+import { Theme } from "@artsy/palette";
 import { MDXProvider } from "@mdx-js/react";
 import { H1, H2, P } from "../components/Typography";
-
-const layoutNoop = page => page;
 
 export default class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
-    const getLayout = (Component as any).getLayout || layoutNoop;
+    const Layout = (Component as any).Layout;
     return (
       <>
         <MDXProvider
@@ -20,7 +18,15 @@ export default class MyApp extends App {
             p: P
           }}
         >
-          <Theme>{getLayout(<Component {...pageProps} />, pageProps)}</Theme>
+          <Theme>
+            {Layout ? (
+              <Layout {...pageProps}>
+                <Component {...pageProps} />
+              </Layout>
+            ) : (
+              <Component {...pageProps} />
+            )}
+          </Theme>
         </MDXProvider>
       </>
     );

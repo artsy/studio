@@ -10,6 +10,7 @@ import {
 } from "@artsy/palette";
 import { LinkConfig, LinkSection } from "./LinkSection";
 import styled from "styled-components";
+import { debounce } from "debounce";
 
 const helpfulLinks: LinkConfig[] = [
   {
@@ -42,7 +43,7 @@ const SidebarContainer = styled(Flex)`
   overflow-y: scroll;
 `;
 
-export const Sidebar = () => {
+export const Sidebar = ({ onSearch }) => {
   return (
     <SidebarContainer
       flexDirection="column"
@@ -58,7 +59,10 @@ export const Sidebar = () => {
         </Sans>
         <Flex alignItems="center">
           <ArtsyMarkIcon width="48" height="48" mr={1} />
-          <Input placeholder="Search team members" />
+          <Input
+            placeholder="Search team members"
+            onChange={e => onSearch((e.target as any).value)}
+          />
         </Flex>
         <Separator mt={3} />
       </Box>

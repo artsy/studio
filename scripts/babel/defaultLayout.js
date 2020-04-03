@@ -45,7 +45,7 @@ const addLayoutToFile = (parse, program, state) => {
       parse,
       program,
       state,
-      `${defaultExportName}.getLayout = require("${process.cwd()}/layouts/${dirname}").default`
+      `${defaultExportName}.Layout = require("${process.cwd()}/layouts/${dirname}").default`
     );
   }
 };
@@ -81,7 +81,7 @@ module.exports = function({ types: t, parse }) {
             AssignmentExpression(path) {
               if (
                 t.isMemberExpression(path.node.left) &&
-                path.node.left.property.name === "getLayout"
+                path.node.left.property.name === "Layout"
               ) {
                 getLayoutIsAlreadyDefined = true;
                 path.stop();

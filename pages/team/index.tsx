@@ -84,15 +84,17 @@ const TeamNav = props => {
   if (!data) return <div>loading...</div>;
 
   const group = {};
-  data.forEach(member => {
-    const firstLetter = member.name[0];
-    if (!group[firstLetter]) {
-      group[firstLetter] = [];
-    }
-    group[firstLetter].push(member);
-  });
-
-  console.log(group);
+  data
+    .filter(member =>
+      member.name.toLowerCase().includes(props.searchText.toLowerCase())
+    )
+    .forEach(member => {
+      const firstLetter = member.name[0];
+      if (!group[firstLetter]) {
+        group[firstLetter] = [];
+      }
+      group[firstLetter].push(member);
+    });
 
   return (
     <section>

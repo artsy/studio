@@ -7,7 +7,7 @@ export async function getServerSideProps() {
   return {
     props: {
       title: "Artsy Engineering Blog",
-      message: "Writing office hours are on Tuesday at 2:30"
+      message: "Writing office hours are on Monday at 2:30"
     }
   };
 }
