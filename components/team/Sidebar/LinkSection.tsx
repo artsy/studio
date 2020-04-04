@@ -1,6 +1,7 @@
 import RouteLink from "next/link";
 import { Flex, Sans, Serif, Link, color } from "@artsy/palette";
 import { External } from "react-bytesize-icons";
+import { useRouter } from "next/router";
 
 export interface LinkConfig {
   text: string;
@@ -14,6 +15,7 @@ interface LinkSectionProps {
   links: LinkConfig[];
 }
 export const LinkSection = ({ title, links }: LinkSectionProps) => {
+  const router = useRouter();
   return (
     <Flex flexDirection="column" mb={3}>
       <Sans size="3t" weight="medium">
@@ -31,7 +33,15 @@ export const LinkSection = ({ title, links }: LinkSectionProps) => {
               </>
             ) : (
               <RouteLink href={link.href} passHref>
-                <Link underlineBehavior="hover" mr={0.5}>
+                <Link
+                  color={
+                    router.asPath === encodeURI(link.href)
+                      ? "purple100"
+                      : undefined
+                  }
+                  underlineBehavior="hover"
+                  mr={0.5}
+                >
                   <Serif size="4">{link.text}</Serif>
                 </Link>
               </RouteLink>
