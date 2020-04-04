@@ -7,6 +7,10 @@ import { AvatarFallback } from "../../components/AvatarFallback";
 import memoize from "fast-memoize";
 import RouterLink from "next/link";
 
+const capitalize = (s: string) => {
+  return s[0].toUpperCase() + s.slice(1).toLowerCase();
+};
+
 export const formatMemberName = name => name.toLowerCase().replace(" ", ".");
 
 export const fetcher = memoize((url: string) =>
@@ -47,9 +51,19 @@ export const TeamMember = props => {
         )}
       </AvatarContainer>
       <Flex flexDirection="column" ml={1}>
-        <Serif size="4" weight="semibold">
-          {member.name}
-        </Serif>
+        <Flex>
+          <Serif size="4" weight="semibold">
+            {member.name}
+          </Serif>
+          {member.preferred_pronouns && (
+            <Serif size="4" color="black60" ml={1}>
+              {member.preferred_pronouns
+                .split("/")
+                .map(capitalize)
+                .join("/")}
+            </Serif>
+          )}
+        </Flex>
         <Serif size="4">{member.title}</Serif>
         <Serif size="4" color="black60">
           {location(member)}
