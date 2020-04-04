@@ -1,10 +1,11 @@
-import { Box, Flex, space } from "@artsy/palette";
+import { Box, Flex, space, Serif, Link, color, Spacer } from "@artsy/palette";
 import { Sidebar } from "../components/team/Sidebar";
 import styled from "styled-components";
 import { useState, cloneElement, memo } from "react";
 import { debounce } from "debounce";
 import useSWR from "swr";
 import fetch from "node-fetch";
+import { External } from "react-bytesize-icons";
 
 const PageContainer = styled(Box)`
   overflow-y: scroll;
@@ -43,7 +44,33 @@ const Team: React.FC<TeamProps> = ({ children, ...props }) => {
           search(text);
         }}
       />
-      <PageContainer width="100%" height="100%" pt={space(1) + 3}>
+      <PageContainer
+        width="100%"
+        height="100%"
+        position="relative"
+        pt={space(1) + 3}
+      >
+        <Flex
+          position="fixed"
+          bottom={0}
+          pr={2}
+          pb={0.5}
+          style={{ right: 0 }}
+          background="white"
+        >
+          <Serif size="2" color="black60">
+            Something missing or incorrect?&nbsp;
+          </Serif>
+          <Link href="https://dashboard.managedbyq.com/tasks/artsy/catalog?initialItemId=IfRG9X35cn">
+            <Flex alignItems="center">
+              <Serif size="2" color="black60">
+                Request an update
+              </Serif>
+              <Spacer mr={0.5} />
+              <External width="10" height="10" color={color("black60")} />
+            </Flex>
+          </Link>
+        </Flex>
         {cloneElement(children as any, { searchText, data, error })}
       </PageContainer>
     </Flex>

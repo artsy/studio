@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Box, Link, Serif, Flex, space } from "@artsy/palette";
+import { Box, Link, Serif } from "@artsy/palette";
 import {
   TeamMember,
   formatMemberName,
@@ -41,16 +41,6 @@ const Member = props => {
       <Serif size="2">{member.team}</Serif>
       <Serif size="2">Reports To</Serif>
       <Serif size="2">{member.reports_to}</Serif>
-      <Flex position="absolute" bottom={space(1)}>
-        <Serif size="2" color="black60">
-          Something missing or incorrect?&nbsp;
-        </Serif>
-        <Link href="https://dashboard.managedbyq.com/tasks/artsy/catalog?initialItemId=IfRG9X35cn">
-          <Serif size="2" color="black60">
-            Request an update via Managed by Q
-          </Serif>
-        </Link>
-      </Flex>
       <Serif size="2">{member.personal_bio}</Serif>
     </Box>
   );
