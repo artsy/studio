@@ -5,18 +5,30 @@ import {
   Separator,
   color,
   Box,
+  Link,
   Spacer,
   Sans
 } from "@artsy/palette";
 import { LinkConfig, LinkSection } from "./LinkSection";
 import styled from "styled-components";
-import { debounce } from "debounce";
+import groupBy from "lodash.groupby";
+import RouteLink from "next/link";
+
+const aggregateMemberLinks = (members, field, prefix) => {
+  return Object.entries(groupBy(members, field))
+    .map(([fieldValue, group]) => ({
+      text: fieldValue,
+      count: (group as any)?.length,
+      href: `/team/${prefix}/${fieldValue}`
+    }))
+    .filter(({ text }) => text);
+};
 
 const helpfulLinks: LinkConfig[] = [
   {
     text: "Atlas",
     external: true,
-    href: "https://sites.google.com/a/artsymail.com/intranet/"
+    href: "https://atlas.artsy.net"
   },
   {
     text: "NYC OfficeSpace",
@@ -43,7 +55,12 @@ const SidebarContainer = styled(Flex)`
   overflow-y: scroll;
 `;
 
-export const Sidebar = ({ onSearch }) => {
+interface SidebarProps {
+  onSearch: (searchText: string) => void;
+  data?: any;
+}
+
+export const Sidebar = ({ onSearch, data }: SidebarProps) => {
   return (
     <SidebarContainer
       flexDirection="column"
@@ -54,9 +71,13 @@ export const Sidebar = ({ onSearch }) => {
       mr={3}
     >
       <Box position="fixed" bg="white" width="390px">
-        <Sans size="3" weight="medium" my={1}>
-          Team Navigator
-        </Sans>
+        <RouteLink href="/team" passHref>
+          <Link underlineBehavior="hover">
+            <Sans size="3" weight="medium" my={1}>
+              Team Navigator
+            </Sans>
+          </Link>
+        </RouteLink>
         <Flex alignItems="center">
           <ArtsyMarkIcon width="48" height="48" mr={1} />
           <Input
@@ -69,6 +90,18 @@ export const Sidebar = ({ onSearch }) => {
       {/* This spacer should have an mb of the height above + 30px */}
       <Spacer mb="140px" />
       <LinkSection title="Links" links={helpfulLinks} />
+      <LinkSection
+        title="Locations"
+        links={aggregateMemberLinks(data, "city", "location")}
+      />
+      <LinkSection
+        title="Organizations"
+        links={aggregateMemberLinks(data, "org", "org")}
+      />
+      <LinkSection
+        title="Team"
+        links={aggregateMemberLinks(data, "team", "team")}
+      />
     </SidebarContainer>
   );
 };

@@ -1,19 +1,17 @@
-import useSWR from "swr";
-import {
-  Avatar,
-  Box,
-  Serif,
-  Flex,
-  UserSingleIcon,
-  color,
-  Separator
-} from "@artsy/palette";
+import { Avatar, Box, Serif, Flex, Separator, Link } from "@artsy/palette";
 import fetch from "node-fetch";
 import style from "styled-components";
 import { GetServerSideProps } from "next";
 import { H1 } from "../../components/Typography";
+import { AvatarFallback } from "../../components/AvatarFallback";
+import memoize from "fast-memoize";
+import RouterLink from "next/link";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+export const formatMemberName = name => name.toLowerCase().replace(" ", ".");
+
+export const fetcher = memoize((url: string) =>
+  fetch(url).then(res => res.json())
+);
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { host } = req.headers;
@@ -29,24 +27,7 @@ const AvatarContainer = style(Box)`
 const location = ({ city, floor }) =>
   [city, floor && `Fl. ${floor}`].filter(v => v).join(", ");
 
-const AvatarFallback = ({ diameter }) => (
-  <Flex
-    width={diameter}
-    height={diameter}
-    borderRadius={diameter}
-    background={color("black10")}
-    alignItems="center"
-    justifyContent="center"
-  >
-    <UserSingleIcon
-      fill="black30"
-      height={parseInt(diameter) - 20}
-      width={parseInt(diameter) - 20}
-    />
-  </Flex>
-);
-
-const TeamMember = props => {
+export const TeamMember = props => {
   const { member } = props;
 
   return (
@@ -56,6 +37,7 @@ const TeamMember = props => {
           <Avatar
             size="md"
             src={member.headshot}
+            lazyLoad={true}
             renderFallback={({ diameter }) => (
               <AvatarFallback diameter={diameter} />
             )}
@@ -78,15 +60,18 @@ const TeamMember = props => {
 };
 
 const TeamNav = props => {
-  const initialData = props.data;
-  const { data, error } = useSWR("/api/team/all", fetcher, { initialData });
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  const { data } = props;
+
+  const normalizeSearchTerm = content => {
+    return content.toLowerCase().replace(/\s/g, "");
+  };
 
   const group = {};
   data
     .filter(member =>
-      member.name.toLowerCase().includes(props.searchText.toLowerCase())
+      normalizeSearchTerm(member.name).includes(
+        normalizeSearchTerm(props.searchText)
+      )
     )
     .forEach(member => {
       const firstLetter = member.name[0];
@@ -104,7 +89,15 @@ const TeamNav = props => {
             <H1>{firstLetter}</H1>
             <Flex flexWrap="wrap">
               {members.map(member => (
-                <TeamMember key={member.name + member.title} member={member} />
+                <RouterLink
+                  key={member.name}
+                  href={`/team/member/${formatMemberName(member.name)}`}
+                  passHref
+                >
+                  <Link underlineBehavior="none">
+                    <TeamMember member={member} />
+                  </Link>
+                </RouterLink>
               ))}
             </Flex>
             <Separator mt={3} />
