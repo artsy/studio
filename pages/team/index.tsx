@@ -6,6 +6,7 @@ import { H1 } from "../../components/Typography";
 import { AvatarFallback } from "../../components/AvatarFallback";
 import memoize from "fast-memoize";
 import RouterLink from "next/link";
+import { useRouter } from "next/router";
 
 const capitalize = (s: string) => {
   return s[0].toUpperCase() + s.slice(1).toLowerCase();
@@ -75,6 +76,7 @@ export const TeamMember = props => {
 
 const TeamNav = props => {
   const { data } = props;
+  const router = useRouter();
 
   const normalizeSearchTerm = content => {
     return content.toLowerCase().replace(/\s/g, "");
@@ -84,7 +86,7 @@ const TeamNav = props => {
   data
     .filter(member =>
       normalizeSearchTerm(member.name).includes(
-        normalizeSearchTerm(props.searchText)
+        normalizeSearchTerm(router.query.search || "")
       )
     )
     .forEach(member => {

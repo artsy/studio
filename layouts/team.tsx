@@ -2,7 +2,6 @@ import { Box, Flex, space, Serif, Link, color, Spacer } from "@artsy/palette";
 import { Sidebar } from "../components/team/Sidebar";
 import styled from "styled-components";
 import { useState, cloneElement, memo } from "react";
-import { debounce } from "debounce";
 import useSWR from "swr";
 import fetch from "node-fetch";
 import { External } from "react-bytesize-icons";
@@ -33,17 +32,9 @@ const Team: React.FC<TeamProps> = ({ children, ...props }) => {
   const { data = [], error } = useSWR("/api/team/all", fetcher, {
     initialData: props.data
   });
-  const [searchText, setSearchText] = useState("");
-  const search = debounce(setSearchText, 200);
   return (
     <Flex height="100%">
-      <Sidebar
-        {...props}
-        data={data}
-        onSearch={text => {
-          search(text);
-        }}
-      />
+      <Sidebar {...props} data={data} />
       <PageContainer
         width="100%"
         height="100%"
@@ -71,7 +62,7 @@ const Team: React.FC<TeamProps> = ({ children, ...props }) => {
             </Flex>
           </Link>
         </Flex>
-        {cloneElement(children as any, { searchText, data, error })}
+        {cloneElement(children as any, { data, error })}
       </PageContainer>
     </Flex>
   );
