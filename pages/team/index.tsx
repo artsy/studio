@@ -7,6 +7,7 @@ import { AvatarFallback } from "../../components/AvatarFallback";
 import memoize from "fast-memoize";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
+import { NoResults } from "../../components/team/NoResults";
 
 const capitalize = (s: string) => {
   return s[0].toUpperCase() + s.slice(1).toLowerCase();
@@ -96,6 +97,10 @@ const TeamNav = props => {
       }
       group[firstLetter].push(member);
     });
+
+  if (Object.keys(group).length === 0) {
+    return <NoResults />;
+  }
 
   return (
     <section>
