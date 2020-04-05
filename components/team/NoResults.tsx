@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { Flex, Link } from "@artsy/palette";
 import RouterLink from "next/link";
 
-export const NoResults = () => {
+interface NoResultsProps {
+  page?: string;
+}
+export const NoResults = ({ page }: NoResultsProps) => {
   const router = useRouter();
-  const includeGroup = ["[location]", "[org]", "[team]"].some(g =>
-    router.pathname.endsWith(g)
-  );
   return (
     <Flex
       flexDirection="column"
@@ -17,15 +17,9 @@ export const NoResults = () => {
     >
       <H1>
         Couldn't find results for <i>{router.query.search}</i>{" "}
-        {includeGroup &&
-          `in ${decodeURI(
-            router.asPath
-              .split("?")[0]
-              .split("/")
-              .pop()
-          )}`}
+        {page && `in ${page}`}
       </H1>
-      {router.pathname !== "/team" && (
+      {page && (
         <RouterLink href={"/team?search=" + router.query.search} passHref>
           <Link>Search the whole team</Link>
         </RouterLink>

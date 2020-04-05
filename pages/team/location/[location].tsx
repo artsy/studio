@@ -1,19 +1,40 @@
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import TeamNav, { getPathsForRoute } from "../index";
+import { Spinner } from "@artsy/palette";
+import { normalizeParam } from "../../../lib/url";
+import { NoResults } from "../../../components/team/NoResults";
 
-import TeamNav from "../index";
-
-export { getServerSideProps } from "../index";
+export const getStaticPaths = getPathsForRoute({
+  route: "location",
+  key: "city"
+});
+export { getStaticProps } from "../index";
 
 const Location = props => {
   const router = useRouter();
+
+  if (router.isFallback) {
+    return <Spinner />;
+  }
+
   const location = router.query.location;
+  let formattedLocation = "";
 
   const data = props.data.filter(member => {
-    return member.city === location;
+    if (normalizeParam(member.city) === location) {
+      formattedLocation = member.city;
+      return true;
+    }
+    return false;
   });
 
-  return <TeamNav {...props} data={data} />;
+  return (
+    <TeamNav
+      {...props}
+      data={data}
+      NoResults={() => <NoResults page={formattedLocation} />}
+    />
+  );
 };
 
 export default Location;

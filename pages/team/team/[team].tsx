@@ -1,17 +1,38 @@
 import { useRouter } from "next/router";
-import TeamNav from "../index";
+import TeamNav, { getPathsForRoute } from "../index";
+import { Spinner } from "@artsy/palette";
+import { normalizeParam } from "../../../lib/url";
+import { NoResults } from "../../../components/team/NoResults";
 
-export { getServerSideProps } from "../index";
+export { getStaticProps } from "../index";
+
+export const getStaticPaths = getPathsForRoute({ route: "team" });
 
 const Team = props => {
   const router = useRouter();
+
+  if (router.isFallback) {
+    return <Spinner />;
+  }
+
   const team = router.query.team;
+  let formattedTeam = "";
 
   const data = props.data.filter(member => {
-    return member.team === team;
+    if (normalizeParam(member.team) === team) {
+      formattedTeam = member.team;
+      return true;
+    }
+    return false;
   });
 
-  return <TeamNav {...props} data={data} />;
+  return (
+    <TeamNav
+      {...props}
+      data={data}
+      NoResults={() => <NoResults page={formattedTeam} />}
+    />
+  );
 };
 
 export default Team;

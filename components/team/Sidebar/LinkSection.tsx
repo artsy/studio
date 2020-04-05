@@ -35,7 +35,7 @@ export const LinkSection = ({ title, links }: LinkSectionProps) => {
               <RouteLink href={link.href} passHref>
                 <Link
                   color={
-                    router.asPath === encodeURI(link.href)
+                    router.asPath.split("?")[0] === encodeURI(link.href)
                       ? "purple100"
                       : undefined
                   }

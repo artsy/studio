@@ -16,6 +16,7 @@ import RouteLink from "next/link";
 import Router, { NextRouter, useRouter } from "next/router";
 import { debounce } from "debounce";
 import { useRef, useEffect } from "react";
+import { normalizeParam } from "../../../lib/url";
 
 const search = debounce((router: NextRouter, searchTerm: string) => {
   console.log("AS PATH", router.asPath);
@@ -41,7 +42,7 @@ const aggregateMemberLinks = (members, field, prefix) => {
     .map(([fieldValue, group]) => ({
       text: fieldValue,
       count: (group as any)?.length,
-      href: `/team/${prefix}/${fieldValue}`
+      href: `/team/${prefix}/${normalizeParam(fieldValue)}`
     }))
     .filter(({ text }) => text);
 };

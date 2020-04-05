@@ -1,24 +1,27 @@
 import { useRouter } from "next/router";
-import { Box, Link, Serif } from "@artsy/palette";
-import {
-  TeamMember,
-  formatMemberName,
-  getServerSideProps as getTeamProps
-} from "../index";
-import { GetServerSideProps } from "next";
+import { Box, Link, Serif, Spinner } from "@artsy/palette";
+import { TeamMember, getPathsForRoute } from "../index";
 import ErrorPage from "next/error";
 import { H1 } from "../../../components/Typography";
+import { normalizeParam } from "../../../lib/url";
 
-export const getServerSideProps: GetServerSideProps = async (...args) => {
-  return getTeamProps(...args);
-};
+export { getStaticProps } from "../index";
+
+export const getStaticPaths = getPathsForRoute({
+  route: "name"
+});
 
 const Member = props => {
   const router = useRouter();
+
+  if (router.isFallback) {
+    return <Spinner />;
+  }
+
   const name = router.query.name;
 
   const member = props.data.find(member => {
-    return formatMemberName(member.name) === name;
+    return normalizeParam(member.name) === name;
   });
 
   if (!member) {

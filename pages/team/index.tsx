@@ -9,28 +9,42 @@ import {
 } from "@artsy/palette";
 import fetch from "node-fetch";
 import styled from "styled-components";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import { H1 } from "../../components/Typography";
 import { AvatarFallback } from "../../components/AvatarFallback";
 import memoize from "fast-memoize";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
-import { NoResults } from "../../components/team/NoResults";
+import { NoResults as DefaultNoResults } from "../../components/team/NoResults";
+import { normalizeParam } from "../../lib/url";
 
 const capitalize = (s: string) => {
   return s[0].toUpperCase() + s.slice(1).toLowerCase();
 };
 
-export const formatMemberName = name => name.toLowerCase().replace(" ", ".");
-
 export const fetcher = memoize((url: string) =>
   fetch(url).then(res => res.json())
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { host } = req.headers;
-  const url = host.includes("http") ? host : `http://${host}`;
-  const data = await fetcher(`${url}/api/team/all`);
+export const getPathsForRoute = ({ route, key = null, format = x => x }) => {
+  if (!key) {
+    key = route;
+  }
+  return async () => {
+    const data = await fetcher(`http://localhost:3000/api/team/all`);
+    const paths = Array.from(
+      new Set(data.map(member => format(member[key])))
+    ).map((param: string) => ({
+      params: {
+        [route]: normalizeParam(param)
+      }
+    }));
+    return { paths, fallback: false };
+  };
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const data = await fetcher(`http://localhost:3000/api/team/all`);
   return { props: { data } };
 };
 
@@ -93,7 +107,7 @@ export const TeamMember = props => {
 };
 
 const TeamNav = props => {
-  const { data } = props;
+  const { data, NoResults = DefaultNoResults } = props;
   const router = useRouter();
 
   const normalizeSearchTerm = content => {
@@ -129,7 +143,7 @@ const TeamNav = props => {
               {members.map(member => (
                 <RouterLink
                   key={member.name}
-                  href={`/team/member/${formatMemberName(member.name)}`}
+                  href={`/team/member/${normalizeParam(member.name)}`}
                   passHref
                 >
                   <Link underlineBehavior="none">
