@@ -122,6 +122,7 @@ export const Sidebar = ({ data }: SidebarProps) => {
           <ArtsyMarkIcon width="48" height="48" mr={1} />
           <Input
             ref={inputEl}
+            defaultValue={router.query.search || ""}
             placeholder="Search team members"
             onChange={e => {
               const { value } = e.target as any;

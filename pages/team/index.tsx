@@ -1,6 +1,14 @@
-import { Avatar, Box, Serif, Flex, Separator, Link } from "@artsy/palette";
+import {
+  Avatar,
+  Box,
+  Serif,
+  Flex,
+  Separator,
+  Link,
+  color
+} from "@artsy/palette";
 import fetch from "node-fetch";
-import style from "styled-components";
+import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { H1 } from "../../components/Typography";
 import { AvatarFallback } from "../../components/AvatarFallback";
@@ -26,7 +34,16 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return { props: { data } };
 };
 
-const AvatarContainer = style(Box)`
+const TeamMemberContainer = styled(Flex)`
+  border-radius: 5px;
+  transition: background-color 250ms;
+  background-color: transparent;
+  &:hover {
+    background-color: ${color("black5")};
+  }
+`;
+
+const AvatarContainer = styled(Box)`
   flex-shrink: 0;
 `;
 
@@ -37,7 +54,7 @@ export const TeamMember = props => {
   const { member } = props;
 
   return (
-    <Flex width="390px" mb={3}>
+    <TeamMemberContainer width="390px" p={1}>
       <AvatarContainer>
         {member.headshot ? (
           <Avatar
@@ -71,7 +88,7 @@ export const TeamMember = props => {
           {location(member)}
         </Serif>
       </Flex>
-    </Flex>
+    </TeamMemberContainer>
   );
 };
 

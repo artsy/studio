@@ -5,6 +5,9 @@ import RouterLink from "next/link";
 
 export const NoResults = () => {
   const router = useRouter();
+  const includeGroup = ["[location]", "[org]", "[team]"].some(g =>
+    router.pathname.endsWith(g)
+  );
   return (
     <Flex
       flexDirection="column"
@@ -13,7 +16,14 @@ export const NoResults = () => {
       mt="20%"
     >
       <H1>
-        Couldn't find results for <i>{router.query.search}</i>
+        Couldn't find results for <i>{router.query.search}</i>{" "}
+        {includeGroup &&
+          `in ${decodeURI(
+            router.asPath
+              .split("?")[0]
+              .split("/")
+              .pop()
+          )}`}
       </H1>
       {router.pathname !== "/team" && (
         <RouterLink href={"/team?search=" + router.query.search} passHref>

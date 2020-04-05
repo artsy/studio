@@ -1,7 +1,7 @@
 import { Box, Flex, space, Serif, Link, color, Spacer } from "@artsy/palette";
 import { Sidebar } from "../components/team/Sidebar";
 import styled from "styled-components";
-import { useState, cloneElement, memo } from "react";
+import { cloneElement } from "react";
 import useSWR from "swr";
 import fetch from "node-fetch";
 import { External } from "react-bytesize-icons";
@@ -68,4 +68,4 @@ const Team: React.FC<TeamProps> = ({ children, ...props }) => {
   );
 };
 
-export default memo(Team);
+export default Team;
