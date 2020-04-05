@@ -1,10 +1,4 @@
-import { Isotope } from "isotopes";
-
-const TEAM_NAV_IMGS = "team-nav-images";
-
-interface Model {
-  id: string;
-}
+import { Isotope, IsotopeSelect, IsotopeResult } from "isotopes";
 
 const createModel = <T extends Model>(name: string) =>
   new Isotope<T>({
@@ -12,26 +6,68 @@ const createModel = <T extends Model>(name: string) =>
     key: "id"
   });
 
-export interface TeamNavImageCache extends Model {
-  id: typeof TEAM_NAV_IMGS;
-  images: { [imageUrl: string]: string };
+export interface Model {
+  id: string;
 }
 
-export const Metadata = createModel<TeamNavImageCache>("metadata");
+export interface ImageCacheModel extends Model {
+  type: "image";
+  imageUrl: string;
+}
 
-const teamNavImageCacheDefault = {
-  id: TEAM_NAV_IMGS,
-  images: {}
-} as const;
+class Metadata {
+  private model: Isotope<ImageCacheModel, ImageCacheModel, ImageCacheModel>;
+  private init() {
+    if (!this.model) {
+      this.model = createModel<ImageCacheModel>("metadata");
+      return this.model.create();
+    }
+    return this.model;
+  }
+  async erase() {
+    await this.init();
+    await this.model.destroy();
+    this.model = null;
+    await this.init();
+  }
+  async get(id?: string) {
+    await this.init();
+    return this.model.get(id);
+  }
+  async set(data: ImageCacheModel) {
+    await this.init();
+    return this.model.put(data);
+  }
+  async delete(id: string) {
+    await this.init();
+    return this.model.delete(id);
+  }
+  async select(
+    callback: (
+      query: IsotopeSelect<ImageCacheModel>
+    ) => IsotopeSelect<ImageCacheModel>
+  ): Promise<IsotopeResult<ImageCacheModel>> {
+    await this.init();
+    return this.model.select(callback(this.model.getQueryBuilder()));
+  }
+}
 
-export const teamNavImageCache = {
-  async get() {
-    return (await Metadata.get(TEAM_NAV_IMGS)) ?? teamNavImageCacheDefault;
+export const metadata = new Metadata();
+
+export const imageCache = {
+  list() {
+    return metadata.select(query => query.where("`type` LIKE ?", "%image%"));
   },
-  set(value: TeamNavImageCache) {
-    return Metadata.put({ ...teamNavImageCacheDefault, ...value });
+  clear() {
+    return this.list();
   },
-  delete(names?: string[]) {
-    return Metadata.delete(TEAM_NAV_IMGS, names);
+  async get(id: string): Promise<string> {
+    return (await metadata.get(`image-${id}`))?.imageUrl;
+  },
+  set(id: string, imageUrl: string) {
+    return metadata.set({ id: `image-${id}`, type: "image", imageUrl });
+  },
+  delete(id) {
+    return metadata.delete(`image-${id}`);
   }
 };

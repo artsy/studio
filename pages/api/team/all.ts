@@ -1,16 +1,21 @@
 import { NowRequest, NowResponse } from "@now/node";
 import csv from "csvtojson";
 import fetch from "node-fetch";
-import memoize from "fast-memoize";
 import pLimit from "p-limit";
 import needle from "needle";
-import { teamNavImageCache } from "../../../lib/models";
+import { imageCache } from "../../../lib/models";
 import { hash } from "../../../lib/hash";
 
-// arn:aws:sdb:us-east-1:585031190124:domain/artsy-studio
+const limit = pLimit(10);
 
-const fetchHeadshot = (host: string, imageUrl: string) =>
-  needle("get", `${host}/api/team/image/resize?url=${encodeURI(imageUrl)}`)
+const resizeImage = (host: string, imageUrl: string, size?: number) => {
+  host = host.startsWith("http") ? host : `http://${host}`;
+  return needle(
+    "get",
+    `${host}/api/image/resize?url=${encodeURI(imageUrl)}${
+      size ? "&size=" + size : ""
+    }`
+  )
     .then(res => {
       if (res.status < 400) {
         throw new Error(res.body.toString());
@@ -20,8 +25,27 @@ const fetchHeadshot = (host: string, imageUrl: string) =>
     .catch(err => {
       console.error("Something went wrong fetching" + err);
     });
+};
 
-const limit = pLimit(20);
+const getResizedImageUrl = async (
+  host: string,
+  imageUrl: string,
+  size: number
+): Promise<string> => {
+  const cacheKey = hash(imageUrl + (size ? `&size=${size}` : ""));
+  const cachedImage = await imageCache.get(cacheKey);
+  if (cachedImage) {
+    return cachedImage;
+  }
+  return limit(() => resizeImage(host, imageUrl, size)).then(
+    async resizedImageUrl => {
+      console.log(`resized ${imageUrl} to ${size}`);
+      console.log(resizedImageUrl);
+      await imageCache.set(cacheKey, resizedImageUrl);
+      return resizedImageUrl;
+    }
+  );
+};
 
 export default async (req: NowRequest, res: NowResponse) => {
   const { host } = req.headers;
@@ -33,12 +57,9 @@ export default async (req: NowRequest, res: NowResponse) => {
     return;
   }
 
-  const [imageCache, parsed] = await Promise.all([
-    teamNavImageCache.get(),
-    fetch(SHEETS_URL)
-      .then(res => res.text())
-      .then(csvContent => csv().fromString(csvContent))
-  ]);
+  const parsed = await fetch(SHEETS_URL)
+    .then(res => res.text())
+    .then(csvContent => csv().fromString(csvContent));
 
   const seen = new Set();
   const promisedMembers = parsed
@@ -52,31 +73,16 @@ export default async (req: NowRequest, res: NowResponse) => {
     .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
     .map(async member => {
       if (member.headshot) {
-        const headshotHash = hash(member.headshot);
-        // If it's in the cache, skip computing it
-        if (imageCache.images[headshotHash]) {
-          member.headshot = imageCache.images[headshotHash];
-          return member;
-        }
-
-        await limit(() =>
-          fetchHeadshot(
-            host.startsWith("http") ? host : `http://${host}`,
-            member.headshot
-          )
-        )
-          .then(headshotUrl => {
-            imageCache.images[headshotHash] = headshotUrl;
-            member.headshot = headshotUrl;
-          })
-          .catch(err => {
-            console.error("err");
-          });
+        member.profileImage = await getResizedImageUrl(
+          host,
+          member.headshot,
+          500
+        );
+        member.avatar = await getResizedImageUrl(host, member.headshot, 200);
       }
       return member;
     });
   const members = await Promise.all(promisedMembers);
-  await teamNavImageCache.set(imageCache);
 
   res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
   res.status(200).setHeader("Content-Type", "application/json");

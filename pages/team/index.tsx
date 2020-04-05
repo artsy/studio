@@ -70,10 +70,10 @@ export const TeamMember = props => {
   return (
     <TeamMemberContainer width="390px" p={1}>
       <AvatarContainer>
-        {member.headshot ? (
+        {member.avatar ? (
           <Avatar
             size="md"
-            src={member.headshot}
+            src={member.avatar}
             lazyLoad={true}
             renderFallback={({ diameter }) => (
               <AvatarFallback diameter={diameter} />
