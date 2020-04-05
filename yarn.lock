@@ -44,10 +44,10 @@
   dependencies:
     cross-fetch "3.0.4"
 
-"@artsy/palette@7.8.0-canary.663.10121.0":
-  version "7.8.0-canary.663.10121.0"
-  resolved "https://registry.yarnpkg.com/@artsy/palette/-/palette-7.8.0-canary.663.10121.0.tgz#42ece820cfba9895fe509edcc247570d864f42e2"
-  integrity sha512-UtWAO1h8Yga4Z8gVPt9+9w121sB999PMAGWNY415YVNKWT8GULTyyrl/Qr+T7/5fpHwkRSE3wP8V1F4TYWZ2EQ==
+"@artsy/palette@^7.8.0":
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/@artsy/palette/-/palette-7.8.0.tgz#48b8c90ede4a4869afe2d49192bdf1fe2df62709"
+  integrity sha512-AeQiaWaa2mMv5PuLwJ1B0dfwUCMxuKWRrWNisimnwCYyas8y9mdAAKkQuBaXi9zazGviqA7iq/GUznaLfDSoIg==
   dependencies:
     babel-plugin-styled-components "^1.10.0"
     d3-interpolate "^1.3.2"
