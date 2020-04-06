@@ -61,27 +61,30 @@ const location = ({ city, floor }) =>
   [city, floor && `Fl. ${floor}`].filter(v => v).join(", ");
 
 export const TeamMember = props => {
-  const { member } = props;
+  const { member, showAvatar = true } = props;
 
   return (
     <RouterLink href={`/team/member/${normalizeParam(member.name)}`} passHref>
       <Link underlineBehavior="none">
-        <TeamMemberContainer width="390px" p={1}>
-          <AvatarContainer>
-            {member.avatar ? (
-              <Avatar
-                size="md"
-                src={member.avatar}
-                lazyLoad={true}
-                renderFallback={({ diameter }) => (
-                  <AvatarFallback diameter={diameter} />
-                )}
-              />
-            ) : (
-              <AvatarFallback diameter={"100px"} />
-            )}
-          </AvatarContainer>
-          <Flex flexDirection="column" ml={1}>
+        <TeamMemberContainer width="390px" p={1} ml={(!showAvatar && -1) || 0}>
+          {showAvatar && (
+            <AvatarContainer mr={1}>
+              {member.avatar ? (
+                <Avatar
+                  size="md"
+                  src={member.avatar}
+                  lazyLoad={true}
+                  renderFallback={({ diameter }) => (
+                    <AvatarFallback diameter={diameter} />
+                  )}
+                />
+              ) : (
+                <AvatarFallback diameter={"100px"} />
+              )}
+            </AvatarContainer>
+          )}
+
+          <Flex flexDirection="column">
             <Flex>
               <Serif size="4" weight="semibold">
                 {member.name}
@@ -104,7 +107,7 @@ export const TeamMember = props => {
 };
 
 const TeamNav = props => {
-  const { data, NoResults = DefaultNoResults } = props;
+  const { title, data, NoResults = DefaultNoResults } = props;
   const router = useRouter();
 
   const normalizeSearchTerm = content => {
@@ -131,21 +134,31 @@ const TeamNav = props => {
   }
 
   return (
-    <section>
-      {Object.entries(group).map(([firstLetter, members]: [string, any[]]) => {
-        return (
-          <Box key={`group-${firstLetter}`} width="100%">
-            <H1>{firstLetter}</H1>
-            <Flex flexWrap="wrap">
-              {members.map(member => (
-                <TeamMember key={member.name} member={member} />
-              ))}
-            </Flex>
-            <Separator mt={3} />
-          </Box>
-        );
-      })}
-    </section>
+    <>
+      {title && (
+        <>
+          <H1>{title}</H1>
+          <Separator />
+        </>
+      )}
+      <section>
+        {Object.entries(group).map(
+          ([firstLetter, members]: [string, any[]]) => {
+            return (
+              <Box key={`group-${firstLetter}`} width="100%">
+                <H1>{firstLetter}</H1>
+                <Flex flexWrap="wrap">
+                  {members.map(member => (
+                    <TeamMember key={member.name} member={member} />
+                  ))}
+                </Flex>
+                <Separator mt={3} />
+              </Box>
+            );
+          }
+        )}
+      </section>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import TeamNav, { getPathsForRoute } from "../index";
 import { Spinner } from "@artsy/palette";
 import { normalizeParam } from "../../../lib/url";
 import { NoResults } from "../../../components/team/NoResults";
+import { H1 } from "../../../components/Typography";
 
 export { getStaticProps } from "../index";
 
@@ -27,11 +28,14 @@ const Organization = props => {
   });
 
   return (
-    <TeamNav
-      {...props}
-      data={data}
-      NoResults={() => <NoResults page={formattedOrg} />}
-    />
+    <>
+      <TeamNav
+        {...props}
+        data={data}
+        title={formattedOrg}
+        NoResults={() => <NoResults page={formattedOrg} />}
+      />
+    </>
   );
 };
 

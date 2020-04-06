@@ -29,6 +29,7 @@ const Team = props => {
   return (
     <TeamNav
       {...props}
+      title={formattedTeam}
       data={data}
       NoResults={() => <NoResults page={formattedTeam} />}
     />

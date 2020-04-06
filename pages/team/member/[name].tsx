@@ -12,12 +12,16 @@ import {
   ResponsiveImage,
   Spacer,
   EnvelopeIcon,
-  space
+  space,
+  Join,
+  Separator
 } from "@artsy/palette";
 import { TeamMember, getPathsForRoute } from "../index";
 import ErrorPage from "next/error";
 import { normalizeParam } from "../../../lib/url";
 import { useMemo } from "react";
+import { H1 } from "../../../components/Typography";
+import RouterLink from "next/link";
 
 export { getStaticProps } from "../index";
 
@@ -58,96 +62,115 @@ const Member = props => {
   const showSubteam = showTeam && !member.team.includes(member.subteam);
 
   return (
-    <Box>
+    <>
+      <H1>{member.name}</H1>
+      <Separator mb={space(4) + 5} />
       <Flex>
         <Flex flexDirection="column" flexBasis="min-content">
-          <Box minWidth="300px" width="300px">
+          <Box minWidth="300px" width="300px" mb={2}>
             <ResponsiveImage src={member.profileImage} />
           </Box>
-          {member.start_date && (
-            <Link href={member.intro_email} underlineBehavior="hover" my={0.5}>
-              <Flex alignItems="center">
-                <Serif size="5" color="black60">
-                  Joined {timeAgo.format(new Date(member.start_date))}
-                </Serif>
-                <EnvelopeIcon ml={0.5} />
-              </Flex>
-            </Link>
-          )}
-          {member.role_text && (
-            <Serif size="4" mb={1}>
-              {member.role_text}
+
+          {member.title && (
+            <Serif size="6" mb={0.5}>
+              {member.title}
             </Serif>
           )}
-          <Flex>
-            <Flex flexDirection="column" mr={2}>
-              {member.preferred_pronouns && (
-                <Serif size="4" weight="semibold" mr={0.5}>
-                  Pronouns:
-                </Serif>
-              )}
-              {showOrg && (
-                <Serif size="4" weight="semibold" mr={0.5}>
-                  Organization:
-                </Serif>
-              )}
-              {showTeam && (
-                <Serif size="4" weight="semibold" mr={0.5}>
-                  Team:
-                </Serif>
-              )}
-              {showSubteam && (
-                <Serif size="4" weight="semibold" mr={0.5}>
-                  Subteam:
-                </Serif>
-              )}
-            </Flex>
-            <Flex flexDirection="column">
-              {member.preferred_pronouns && (
-                <Serif size="4" mr={0.5}>
-                  {member.preferred_pronouns}
-                </Serif>
-              )}
-              {showOrg && (
-                <Serif size="4" mr={0.5}>
-                  {member.org}
-                </Serif>
-              )}
-              {showTeam && (
-                <Serif size="4" mr={0.5}>
-                  {member.team}
-                </Serif>
-              )}
-              {showSubteam && (
-                <Serif size="4" mr={0.5}>
-                  {member.subteam}
-                </Serif>
-              )}
-            </Flex>
-          </Flex>
-        </Flex>
-        <Flex flexDirection="column" ml={1} width="500px">
-          <Serif size="8" weight="semibold" mb={0.5}>
-            {member.name}
-          </Serif>
-          {member.title && <Serif size="6">{member.title}</Serif>}
           {member.city && (
             <Serif size="6" color="black60">
               {member.city}
             </Serif>
           )}
-          <Spacer mb={4} />
-          {manager && (
-            <>
-              <Serif size="5" weight="semibold">
-                Manager
-              </Serif>
-              <TeamMember member={manager} />
-            </>
+          <Spacer mb={2} />
+
+          {member.role_text && (
+            <Serif size="4" mb={2}>
+              {member.role_text}
+            </Serif>
           )}
+          <Flex flexDirection="column">
+            {manager && (
+              <Flex mb={0.5}>
+                <Serif size="4" weight="semibold" style={{ flex: 1 }}>
+                  Manager
+                </Serif>
+                <Box style={{ flex: 1 }}>
+                  <RouterLink
+                    href={`/team/member/${normalizeParam(manager.name)}`}
+                    passHref
+                  >
+                    <Link>
+                      <Serif size="4">{manager.name}</Serif>
+                    </Link>
+                  </RouterLink>
+                </Box>
+              </Flex>
+            )}
+            {member.start_date && (
+              <Flex mb={0.5}>
+                <Serif size="4" weight="semibold" mr={0.5} style={{ flex: 1 }}>
+                  Joined:
+                </Serif>
+                <Link
+                  href={member.intro_email}
+                  underlineBehavior="hover"
+                  mr={0.5}
+                  style={{ flex: 1 }}
+                >
+                  <Flex alignItems="center">
+                    <Serif size="4" mr={0.5}>
+                      {timeAgo.format(new Date(member.start_date))}
+                    </Serif>
+                  </Flex>
+                </Link>
+              </Flex>
+            )}
+            {member.preferred_pronouns && (
+              <Flex mb={0.5}>
+                <Serif size="4" weight="semibold" mr={0.5} style={{ flex: 1 }}>
+                  Pronouns:
+                </Serif>
+                <Serif size="4" mr={0.5} style={{ flex: 1 }}>
+                  {member.preferred_pronouns}
+                </Serif>
+              </Flex>
+            )}
+            {showOrg && (
+              <Flex mb={0.5}>
+                <Serif size="4" weight="semibold" mr={0.5} style={{ flex: 1 }}>
+                  Organization:
+                </Serif>
+                <Serif size="4" mr={0.5} style={{ flex: 1 }}>
+                  {member.org}
+                </Serif>
+              </Flex>
+            )}
+            {showTeam && (
+              <Flex mb={0.5}>
+                <Serif size="4" weight="semibold" mr={0.5} style={{ flex: 1 }}>
+                  Team:
+                </Serif>{" "}
+                <Serif size="4" mr={0.5} style={{ flex: 1 }}>
+                  {member.team}
+                </Serif>
+              </Flex>
+            )}
+            {showSubteam && (
+              <Flex mb={0.5}>
+                <Serif size="4" weight="semibold" mr={0.5} style={{ flex: 1 }}>
+                  Subteam:
+                </Serif>
+                <Serif size="4" mr={0.5} style={{ flex: 1 }}>
+                  {member.subteam}
+                </Serif>
+              </Flex>
+            )}
+          </Flex>
+          <Flex flexDirection="column"></Flex>
         </Flex>
+        <Flex flexDirection="column" ml={3} width="500px"></Flex>
       </Flex>
-    </Box>
+    </>
   );
 };
 

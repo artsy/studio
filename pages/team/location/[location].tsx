@@ -32,6 +32,7 @@ const Location = props => {
     <TeamNav
       {...props}
       data={data}
+      title={formattedLocation}
       NoResults={() => <NoResults page={formattedLocation} />}
     />
   );
