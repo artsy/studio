@@ -16,8 +16,8 @@ export const NoResults = ({ page }: NoResultsProps) => {
       mt="20%"
     >
       <H1>
-        Couldn't find results for <i>{router.query.search}</i>{" "}
-        {page && `in ${page}`}
+        Couldn't find results for{" "}
+        <i>{decodeURI(router.query.search as string)}</i> {page && `in ${page}`}
       </H1>
       {page && (
         <RouterLink href={"/team?search=" + router.query.search} passHref>

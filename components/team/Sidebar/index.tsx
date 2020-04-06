@@ -93,7 +93,8 @@ export const Sidebar = ({ data }: SidebarProps) => {
         inputEl.current.value = "";
       } else {
         inputEl.current.value =
-          new URL("http://noop" + url).searchParams.get("search") || "";
+          decodeURI(new URL("http://noop" + url).searchParams.get("search")) ||
+          "";
       }
     };
 
@@ -123,7 +124,11 @@ export const Sidebar = ({ data }: SidebarProps) => {
           <ArtsyMarkIcon width="48" height="48" mr={1} />
           <Input
             ref={inputEl}
-            defaultValue={router.query.search || ""}
+            defaultValue={
+              router.query.search
+                ? decodeURI(router.query.search as string)
+                : ""
+            }
             placeholder="Search team members"
             onChange={e => {
               const { value } = e.target as any;
