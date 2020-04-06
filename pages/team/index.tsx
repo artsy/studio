@@ -18,10 +18,6 @@ import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "../../components/team/NoResults";
 import { normalizeParam } from "../../lib/url";
 
-const capitalize = (s: string) => {
-  return s[0].toUpperCase() + s.slice(1).toLowerCase();
-};
-
 export const fetcher = memoize((url: string) =>
   fetch(url).then(res => res.json())
 );
@@ -92,10 +88,7 @@ export const TeamMember = props => {
               </Serif>
               {member.preferred_pronouns && (
                 <Serif size="4" color="black60" ml={1}>
-                  {member.preferred_pronouns
-                    .split("/")
-                    .map(capitalize)
-                    .join("/")}
+                  {member.preferred_pronouns}
                 </Serif>
               )}
             </Flex>

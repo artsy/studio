@@ -8,6 +8,10 @@ import { hash } from "../../../lib/hash";
 
 const limit = pLimit(10);
 
+const capitalize = (s: string) => {
+  return s[0].toUpperCase() + s.slice(1).toLowerCase();
+};
+
 const resizeImage = (host: string, imageUrl: string, size?: number) => {
   host = host.startsWith("http") ? host : `http://${host}`;
   return needle(
@@ -72,6 +76,12 @@ export default async (req: NowRequest, res: NowResponse) => {
     })
     .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
     .map(async member => {
+      if (member.preferred_pronouns) {
+        member.preferred_pronouns = member.preferred_pronouns
+          .split("/")
+          .map(p => capitalize(p))
+          .join("/");
+      }
       if (member.headshot) {
         member.profileImage = await getResizedImageUrl(
           host,

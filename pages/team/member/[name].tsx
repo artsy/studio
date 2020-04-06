@@ -16,7 +16,6 @@ import {
 } from "@artsy/palette";
 import { TeamMember, getPathsForRoute } from "../index";
 import ErrorPage from "next/error";
-import { H1, H2, P } from "../../../components/Typography";
 import { normalizeParam } from "../../../lib/url";
 import { useMemo } from "react";
 
@@ -82,6 +81,11 @@ const Member = props => {
           )}
           <Flex>
             <Flex flexDirection="column" mr={2}>
+              {member.preferred_pronouns && (
+                <Serif size="4" weight="semibold" mr={0.5}>
+                  Pronouns:
+                </Serif>
+              )}
               {showOrg && (
                 <Serif size="4" weight="semibold" mr={0.5}>
                   Organization:
@@ -99,6 +103,11 @@ const Member = props => {
               )}
             </Flex>
             <Flex flexDirection="column">
+              {member.preferred_pronouns && (
+                <Serif size="4" mr={0.5}>
+                  {member.preferred_pronouns}
+                </Serif>
+              )}
               {showOrg && (
                 <Serif size="4" mr={0.5}>
                   {member.org}
