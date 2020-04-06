@@ -89,23 +89,6 @@ const Member = props => {
             </Serif>
           )}
           <Flex flexDirection="column">
-            {manager && (
-              <Flex mb={0.5}>
-                <Serif size="4" weight="semibold" style={{ flex: 1 }}>
-                  Manager
-                </Serif>
-                <Box style={{ flex: 1 }}>
-                  <RouterLink
-                    href={`/team/member/${normalizeParam(manager.name)}`}
-                    passHref
-                  >
-                    <Link>
-                      <Serif size="4">{manager.name}</Serif>
-                    </Link>
-                  </RouterLink>
-                </Box>
-              </Flex>
-            )}
             {member.start_date && (
               <Flex mb={0.5}>
                 <Serif size="4" weight="semibold" mr={0.5} style={{ flex: 1 }}>
@@ -163,6 +146,23 @@ const Member = props => {
                 <Serif size="4" mr={0.5} style={{ flex: 1 }}>
                   {member.subteam}
                 </Serif>
+              </Flex>
+            )}
+            {manager && (
+              <Flex mb={0.5}>
+                <Serif size="4" weight="semibold" style={{ flex: 1 }}>
+                  Manager
+                </Serif>
+                <Box style={{ flex: 1 }}>
+                  <RouterLink
+                    href={`/team/member/${normalizeParam(manager.name)}`}
+                    passHref
+                  >
+                    <Link>
+                      <Serif size="4">{manager.name}</Serif>
+                    </Link>
+                  </RouterLink>
+                </Box>
               </Flex>
             )}
           </Flex>
