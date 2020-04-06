@@ -15,6 +15,7 @@
     "debounce": "^1.2.0",
     "fast-memoize": "^2.5.2",
     "isotopes": "^0.5.1",
+    "javascript-time-ago": "^2.0.7",
     "lodash.groupby": "^4.6.0",
     "needle": "^2.3.3",
     "next": "^9.3.1",

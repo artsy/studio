@@ -68,41 +68,45 @@ export const TeamMember = props => {
   const { member } = props;
 
   return (
-    <TeamMemberContainer width="390px" p={1}>
-      <AvatarContainer>
-        {member.avatar ? (
-          <Avatar
-            size="md"
-            src={member.avatar}
-            lazyLoad={true}
-            renderFallback={({ diameter }) => (
-              <AvatarFallback diameter={diameter} />
+    <RouterLink href={`/team/member/${normalizeParam(member.name)}`} passHref>
+      <Link underlineBehavior="none">
+        <TeamMemberContainer width="390px" p={1}>
+          <AvatarContainer>
+            {member.avatar ? (
+              <Avatar
+                size="md"
+                src={member.avatar}
+                lazyLoad={true}
+                renderFallback={({ diameter }) => (
+                  <AvatarFallback diameter={diameter} />
+                )}
+              />
+            ) : (
+              <AvatarFallback diameter={"100px"} />
             )}
-          />
-        ) : (
-          <AvatarFallback diameter={"100px"} />
-        )}
-      </AvatarContainer>
-      <Flex flexDirection="column" ml={1}>
-        <Flex>
-          <Serif size="4" weight="semibold">
-            {member.name}
-          </Serif>
-          {member.preferred_pronouns && (
-            <Serif size="4" color="black60" ml={1}>
-              {member.preferred_pronouns
-                .split("/")
-                .map(capitalize)
-                .join("/")}
+          </AvatarContainer>
+          <Flex flexDirection="column" ml={1}>
+            <Flex>
+              <Serif size="4" weight="semibold">
+                {member.name}
+              </Serif>
+              {member.preferred_pronouns && (
+                <Serif size="4" color="black60" ml={1}>
+                  {member.preferred_pronouns
+                    .split("/")
+                    .map(capitalize)
+                    .join("/")}
+                </Serif>
+              )}
+            </Flex>
+            <Serif size="4">{member.title}</Serif>
+            <Serif size="4" color="black60">
+              {location(member)}
             </Serif>
-          )}
-        </Flex>
-        <Serif size="4">{member.title}</Serif>
-        <Serif size="4" color="black60">
-          {location(member)}
-        </Serif>
-      </Flex>
-    </TeamMemberContainer>
+          </Flex>
+        </TeamMemberContainer>
+      </Link>
+    </RouterLink>
   );
 };
 
@@ -141,15 +145,7 @@ const TeamNav = props => {
             <H1>{firstLetter}</H1>
             <Flex flexWrap="wrap">
               {members.map(member => (
-                <RouterLink
-                  key={member.name}
-                  href={`/team/member/${normalizeParam(member.name)}`}
-                  passHref
-                >
-                  <Link underlineBehavior="none">
-                    <TeamMember member={member} />
-                  </Link>
-                </RouterLink>
+                <TeamMember key={member.name} member={member} />
               ))}
             </Flex>
             <Separator mt={3} />
