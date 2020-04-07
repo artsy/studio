@@ -1,7 +1,5 @@
-import { Sans, Flex, color } from "@artsy/palette";
+import { Sans, Flex, FlexProps, color } from "@artsy/palette";
 import styled from "styled-components";
-
-type FlexProps = React.ComponentProps<typeof Flex>;
 
 interface SuggestedPostCardProps extends FlexProps {
   title: string;

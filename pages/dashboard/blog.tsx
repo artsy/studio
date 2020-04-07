@@ -1,4 +1,4 @@
-import { Flex, Sans, color, Tabs, Tab, space } from "@artsy/palette";
+import { Flex, Sans, Tabs, Tab, space } from "@artsy/palette";
 import styled from "styled-components";
 import { BlogSuggestionInput } from "../../components/dashboard/blog/BlogSuggestionInput";
 import { SuggestedPost } from "../../components/dashboard/blog/SuggestedPost";
@@ -7,7 +7,7 @@ export async function getServerSideProps() {
   return {
     props: {
       title: "Artsy Engineering Blog",
-      message: "Writing office hours are on Tuesday at 2:30"
+      message: "Writing office hours are on Monday at 2:30"
     }
   };
 }
@@ -29,7 +29,7 @@ const suggestedPosts = [
 const Blog = () => {
   return (
     <Flex justifyContent="stretch" height="100%">
-      <OutlinedSection border="1px solid black10" mr={2}>
+      <OutlinedSection mr={2}>
         <BlogSuggestionInput />
         <Sans size="5" mt={2} mb={1}>
           Suggested Posts

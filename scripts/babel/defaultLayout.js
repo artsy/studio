@@ -21,7 +21,6 @@ const shouldProcessFile = state => {
   ) {
     return false;
   }
-  console.log("Applying to" + filename);
   return true;
 };
 
@@ -41,13 +40,12 @@ const addLayoutToFile = (parse, program, state) => {
   const dirname = getFilename(state)
     .split("/pages/")[1]
     .split("/")[0];
-  console.log("addLayout called", defaultExportName, dirname);
   if (fs.existsSync(path.join(process.cwd(), `layouts/${dirname}.tsx`))) {
     appendCodeToFile(
       parse,
       program,
       state,
-      `${defaultExportName}.getLayout = require("${process.cwd()}/layouts/${dirname}").default`
+      `${defaultExportName}.Layout = require("${process.cwd()}/layouts/${dirname}").default`
     );
   }
 };
@@ -83,7 +81,7 @@ module.exports = function({ types: t, parse }) {
             AssignmentExpression(path) {
               if (
                 t.isMemberExpression(path.node.left) &&
-                path.node.left.property.name === "getLayout"
+                path.node.left.property.name === "Layout"
               ) {
                 getLayoutIsAlreadyDefined = true;
                 path.stop();
@@ -119,7 +117,6 @@ export default function(babel, ...args) {
       },
       Program: {
         exit(path) {
-          console.log(path.get("body"));
           path.pushContainer("body", layout());
         }
       }

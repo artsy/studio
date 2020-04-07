@@ -1,4 +1,4 @@
-import { Input } from "@artsy/palette";
+import { Input, InputProps } from "@artsy/palette";
 import { useState, useEffect } from "react";
 
 /**
@@ -22,7 +22,6 @@ const promptingQuestions = [
   "What in our stack would you like to learn more about?"
 ];
 
-type InputProps = React.ComponentProps<typeof Input>;
 export const BlogSuggestionInput = (props: InputProps) => {
   const [remainingPhrases, setRemainingPhrases] = useState(promptingQuestions);
   useEffect(() => {

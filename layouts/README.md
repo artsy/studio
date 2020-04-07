@@ -8,14 +8,13 @@ not a custom layout for `pages/blog/epic`. If there's a need for that we can alw
 
 ### Page Layouts
 
-A layout component is simple. It's a function that's exported as default. The first parameter is the JSX element representing
-the page to be rendered and the second is any props provided to the page by next.js
+A layout component is simple. It's a react component that's exported as default. You _must_ render children. The rest of the props are whatever props are passed to the page by nextjs.
 
 ```
-export default (page, pageProps) => {
+export default ({ children, ...props}) => {
   return (
     <section>
-      {page}
+      {children}
     </section>
   )
 }
@@ -25,23 +24,23 @@ export default (page, pageProps) => {
 
 Sometimes you may want to override the default layout. This is pretty simple to do!
 
-In your page, just add a `getLayout` method to the page export.
+In your page, just attach a `Layout` component to the page export.
 
 For example
 
 ```
 const Page = () => <h1>My next.js page</h1>
 
-Page.getLayout = (page) => {
+Page.Layout = ({ children }) => {
   <main>
-    {page}
+    {children}
   </main>
 }
 
 export default Page
 ```
 
-This is a somewhat contrived example, but defining `getLayout` means that the default layout won't be provided.
+This is a somewhat contrived example, but defining `Layout` means that the default layout won't be provided.
 
 ### MDX Layouts
 

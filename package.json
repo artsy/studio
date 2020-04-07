@@ -3,25 +3,44 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv next dev",
     "dev:hasura": "docker-compose up -d && hasura console",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@artsy/palette": "^7.5.0",
+    "@artsy/palette": "^7.8.0",
+    "aws-sdk": "^2.647.0",
+    "csvtojson": "^2.0.10",
+    "debounce": "^1.2.0",
+    "fast-memoize": "^2.5.2",
+    "isotopes": "^0.5.1",
+    "javascript-time-ago": "^2.0.7",
+    "lodash.groupby": "^4.6.0",
+    "needle": "^2.3.3",
     "next": "^9.3.2",
     "next-mdx-enhanced": "^2.4.0",
+    "node-fetch": "^2.6.0",
     "react": "16.13.1",
     "react-bytesize-icons": "^0.11.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "sharp": "^0.25.2",
+    "swr": "^0.1.18"
   },
   "devDependencies": {
-    "@types/node": "^13.9.2",
+    "@now/node": "^1.5.0",
+    "@types/csvtojson": "^1.1.5",
+    "@types/node-fetch": "^2.5.5",
     "@types/react": "^16.9.23",
+    "@types/styled-components": "4.0.2",
+    "@types/styled-system": "3",
     "babel-plugin-styled-components": "^1.10.7",
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "^3.1.0",
     "hasura-cli": "^1.1.0",
+    "p-limit": "^2.2.2",
     "styled-components": "4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "typescript-styled-plugin": "^0.15.0"
   }
 }
