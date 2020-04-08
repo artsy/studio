@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import fetch from "node-fetch";
+import fetch from "isomorphic-unfetch";
 import { NowRequest, NowResponse } from "@now/node";
 import S3 from "aws-sdk/clients/s3";
 import stream from "stream";

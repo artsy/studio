@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from "@now/node";
 import csv from "csvtojson";
-import fetch from "node-fetch";
+import fetch from "isomorphic-unfetch";
 import pLimit from "p-limit";
 import needle from "needle";
 import { imageCache } from "../../../lib/models";

@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
-import TeamNav, { getPathsForRoute } from "../index";
+import TeamNav from "../index";
 import { Spinner } from "@artsy/palette";
 import { normalizeParam } from "../../../lib/url";
 import { NoResults } from "../../../components/team/NoResults";
 
-export { getStaticProps } from "../index";
+export { getServerSideProps } from "../index";
 
-export const getStaticPaths = getPathsForRoute({ route: "team" });
+// export const getStaticPaths = getPathsForRoute({ route: "team" });
 
 const Team = props => {
   const router = useRouter();

@@ -3,7 +3,7 @@ import { Sidebar } from "../components/team/Sidebar";
 import styled from "styled-components";
 import { cloneElement } from "react";
 import useSWR from "swr";
-import fetch from "node-fetch";
+import fetch from "isomorphic-unfetch";
 import { External } from "react-bytesize-icons";
 
 const PageContainer = styled(Box)`
