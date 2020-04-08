@@ -23,7 +23,6 @@
     "lodash.groupby": "^4.6.0",
     "needle": "^2.3.3",
     "next": "^9.3.2",
-    "next-cookies": "^2.0.3",
     "next-mdx-enhanced": "^2.4.0",
     "node-fetch": "^2.6.0",
     "react": "16.13.1",
