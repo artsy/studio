@@ -4,6 +4,7 @@ import { NowRequest, NowResponse } from "@now/node";
 import S3 from "aws-sdk/clients/s3";
 import stream from "stream";
 import { hash } from "../../../lib/hash";
+import { authorizedEndpoint } from "../../../lib/auth";
 
 const streamToS3 = (
   s3: S3,
@@ -21,7 +22,7 @@ const streamToS3 = (
   return pass;
 };
 
-export default async (req: NowRequest, res: NowResponse) => {
+export default authorizedEndpoint(async (req: NowRequest, res: NowResponse) => {
   const s3 = new S3();
   const { url, size = 200 } = req.query;
   if (typeof url !== "string") {
@@ -45,7 +46,7 @@ export default async (req: NowRequest, res: NowResponse) => {
           resolve();
           return;
         }
-        imgRes.body.pipe(resizer).pipe(
+        (imgRes.body as any).pipe(resizer).pipe(
           streamToS3(
             s3,
             `team/${hash(
@@ -70,4 +71,4 @@ export default async (req: NowRequest, res: NowResponse) => {
       res.status(422).send("Unable to process image" + err);
       res.end();
     });
-};
+});

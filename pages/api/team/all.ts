@@ -5,6 +5,7 @@ import pLimit from "p-limit";
 import needle from "needle";
 import { imageCache } from "../../../lib/models";
 import { hash } from "../../../lib/hash";
+import { authorizedEndpoint } from "../../../lib/auth";
 
 const limit = pLimit(10);
 
@@ -51,7 +52,7 @@ const getResizedImageUrl = async (
   );
 };
 
-export default async (req: NowRequest, res: NowResponse) => {
+export default authorizedEndpoint(async (req: NowRequest, res: NowResponse) => {
   const { host } = req.headers;
   const { SHEETS_URL } = process.env;
 
@@ -97,4 +98,4 @@ export default async (req: NowRequest, res: NowResponse) => {
   res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
   res.status(200).setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(members));
-};
+});

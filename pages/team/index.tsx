@@ -17,48 +17,18 @@ import RouterLink from "next/link";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "../../components/team/NoResults";
 import { normalizeParam } from "../../lib/url";
-import nextCookie from "next-cookies";
+import { authorizedPage } from "../../lib/auth";
 
 export const fetcher = memoize((url: string) =>
   fetch(url).then(res => res.json())
 );
 
-// export const getPathsForRoute = ({ route, key = null, format = x => x }) => {
-//   if (!key) {
-//     key = route;
-//   }
-//   return async () => {
-//     const data = await fetcher(`http://localhost:3000/api/team/all`);
-//     const paths = Array.from(
-//       new Set(data.map(member => format(member[key])))
-//     ).map((param: string) => ({
-//       params: {
-//         [route]: normalizeParam(param)
-//       }
-//     }));
-//     return { paths, fallback: false };
-//   };
-// };
-
-export const getServerSideProps: GetServerSideProps = async ctx => {
-  const { req, res } = ctx;
-  const { token } = nextCookie(ctx);
-  const { host } = req.headers;
-
-  if (!token) {
-    res.writeHead(302, {
-      Location: `https://stagingapi.artsy.net/oauth2/authorize?client_id=${
-        process.env.APP_ID
-      }&redirect_uri=http://${host}/oauth2/callback?redirect_to=${encodeURI(
-        req.url
-      )}&response_type=code`
-    });
-    res.end();
+export const getServerSideProps: GetServerSideProps = authorizedPage(
+  async () => {
+    const data = await fetcher(`http://localhost:3000/api/team/all`);
+    return { props: { data } };
   }
-
-  const data = await fetcher(`http://localhost:3000/api/team/all`);
-  return { props: { data } };
-};
+);
 
 const TeamMemberContainer = styled(Flex)`
   border-radius: 5px;

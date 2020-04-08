@@ -1,9 +1,13 @@
 import { GetServerSideProps } from "next";
 import { H1 } from "../../components/Typography";
 import fetch from "isomorphic-unfetch";
+import { Flex } from "@artsy/palette";
+import { checkUserAuthorization, setTokenCookie } from "../../lib/auth";
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  console.log(query);
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  query
+}) => {
   const tokenResults = await fetch(
     "https://stagingapi.artsy.net/oauth2/access_token",
     {
@@ -20,21 +24,24 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       })
     }
   ).then(res => res.json());
-  console.log(tokenResults);
-  const user = await fetch("https://stagingapi.artsy.net/api/v1/me", {
-    method: "GET",
-    headers: {
-      "X-Access-Token": tokenResults.access_token,
-      Accept: "application/json"
-    }
-  }).then(res => res.json());
-  console.log(user);
+
+  if (await checkUserAuthorization(tokenResults.access_token)) {
+    res.writeHead(302, {
+      Location: query.redirect_to,
+      ...setTokenCookie(tokenResults.access_token)
+    });
+    res.end();
+  }
 
   return { props: {} };
 };
 
 const LoggingIn = () => {
-  return <H1>Something went wrong</H1>;
+  return (
+    <Flex height="100%" justifyContent="center" alignItems="center">
+      <H1>You're not authorized to view this page.</H1>
+    </Flex>
+  );
 };
 
 export default LoggingIn;
