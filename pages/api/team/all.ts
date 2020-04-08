@@ -1,10 +1,8 @@
-import { NowRequest, NowResponse } from "@now/node";
 import csv from "csvtojson";
-import fetch from "isomorphic-unfetch";
 import pLimit from "p-limit";
 import { imageCache } from "../../../lib/models";
 import { hash } from "../../../lib/hash";
-import { authorizedEndpoint } from "../../../lib/auth";
+import { authorizedEndpoint, Fetcher } from "../../../lib/auth";
 
 const limit = pLimit(10);
 
@@ -12,7 +10,12 @@ const capitalize = (s: string) => {
   return s[0].toUpperCase() + s.slice(1).toLowerCase();
 };
 
-const resizeImage = (host: string, imageUrl: string, size?: number) => {
+const resizeImage = (
+  fetch: Fetcher,
+  host: string,
+  imageUrl: string,
+  size?: number
+) => {
   host = host.startsWith("http") ? host : `http://${host}`;
   return fetch(
     `${host}/api/image/resize?url=${encodeURI(imageUrl)}${
@@ -31,6 +34,7 @@ const resizeImage = (host: string, imageUrl: string, size?: number) => {
 };
 
 const getResizedImageUrl = async (
+  fetch: Fetcher,
   host: string,
   imageUrl: string,
   size: number
@@ -40,7 +44,7 @@ const getResizedImageUrl = async (
   if (cachedImage) {
     return cachedImage;
   }
-  return limit(() => resizeImage(host, imageUrl, size)).then(
+  return limit(() => resizeImage(fetch, host, imageUrl, size)).then(
     async resizedImageUrl => {
       if (!resizedImageUrl) {
         return;
@@ -53,7 +57,7 @@ const getResizedImageUrl = async (
   );
 };
 
-export default authorizedEndpoint(async (req: NowRequest, res: NowResponse) => {
+export default authorizedEndpoint(async (req, res, fetch) => {
   const { host } = req.headers;
   const { SHEETS_URL } = process.env;
 
@@ -86,17 +90,22 @@ export default authorizedEndpoint(async (req: NowRequest, res: NowResponse) => {
       }
       if (member.headshot) {
         member.profileImage = await getResizedImageUrl(
+          fetch,
           host,
           member.headshot,
           500
         );
-        member.avatar = await getResizedImageUrl(host, member.headshot, 200);
+        member.avatar = await getResizedImageUrl(
+          fetch,
+          host,
+          member.headshot,
+          200
+        );
       }
       return member;
     });
   const members = await Promise.all(promisedMembers);
 
-  res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
   res.status(200).setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(members));
 });

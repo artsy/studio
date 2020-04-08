@@ -1,6 +1,4 @@
 import sharp from "sharp";
-import fetch from "isomorphic-unfetch";
-import { NowRequest, NowResponse } from "@now/node";
 import S3 from "aws-sdk/clients/s3";
 import stream from "stream";
 import { hash } from "../../../lib/hash";
@@ -22,7 +20,7 @@ const streamToS3 = (
   return pass;
 };
 
-export default authorizedEndpoint(async (req: NowRequest, res: NowResponse) => {
+export default authorizedEndpoint(async (req, res, fetch) => {
   const s3 = new S3();
   const { url, size = 200 } = req.query;
   if (typeof url !== "string") {
