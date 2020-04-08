@@ -2,7 +2,6 @@ import { NowRequest, NowResponse } from "@now/node";
 import csv from "csvtojson";
 import fetch from "isomorphic-unfetch";
 import pLimit from "p-limit";
-import needle from "needle";
 import { imageCache } from "../../../lib/models";
 import { hash } from "../../../lib/hash";
 import { authorizedEndpoint } from "../../../lib/auth";
@@ -15,20 +14,19 @@ const capitalize = (s: string) => {
 
 const resizeImage = (host: string, imageUrl: string, size?: number) => {
   host = host.startsWith("http") ? host : `http://${host}`;
-  return needle(
-    "get",
+  return fetch(
     `${host}/api/image/resize?url=${encodeURI(imageUrl)}${
       size ? "&size=" + size : ""
     }`
   )
     .then(res => {
-      if (res.status < 400) {
-        throw new Error(res.body.toString());
+      if (!res.ok) {
+        throw new Error(`Couldn't result image ${imageUrl}`);
       }
-      return res.body.toString();
+      return res.text();
     })
     .catch(err => {
-      console.error("Something went wrong fetching" + err);
+      console.error(err);
     });
 };
 
@@ -44,6 +42,9 @@ const getResizedImageUrl = async (
   }
   return limit(() => resizeImage(host, imageUrl, size)).then(
     async resizedImageUrl => {
+      if (!resizedImageUrl) {
+        return;
+      }
       console.log(`resized ${imageUrl} to ${size}`);
       console.log(resizedImageUrl);
       await imageCache.set(cacheKey, resizedImageUrl);
