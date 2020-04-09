@@ -7,26 +7,25 @@ import {
   Link,
   color
 } from "@artsy/palette";
-import fetch from "isomorphic-unfetch";
 import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { H1 } from "../../components/Typography";
 import { AvatarFallback } from "../../components/AvatarFallback";
-import memoize from "fast-memoize";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "../../components/team/NoResults";
 import { normalizeParam } from "../../lib/url";
 import { authorizedPage } from "../../lib/auth";
 
-export const fetcher = memoize((url: string) =>
-  fetch(url).then(res => res.json())
-);
-
 export const getServerSideProps: GetServerSideProps = authorizedPage(
-  async () => {
-    const data = await fetcher(`http://localhost:3000/api/team/all`);
-    return { props: { data } };
+  async (_, fetch) => {
+    const res = await fetch(`http://localhost:3000/api/team/all`, {
+      credentials: "include"
+    });
+    if (!res.ok) {
+      return { props: { errorCode: res.status, errorMessage: res.statusText } };
+    }
+    return { props: { data: await res.json() } };
   }
 );
 

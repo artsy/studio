@@ -19,7 +19,6 @@ import { useRef, useEffect } from "react";
 import { normalizeParam } from "../../../lib/url";
 
 const search = debounce((router: NextRouter, searchTerm: string) => {
-  console.log("AS PATH", router.asPath);
   const searchParam = encodeURI(searchTerm);
   const pathname = ["team", "[location]", "[org]", "[team]"].some(route =>
     router.pathname.endsWith(route)
@@ -87,7 +86,6 @@ export const Sidebar = ({ data }: SidebarProps) => {
   const inputEl = useRef(null);
   useEffect(() => {
     const handleRouteChange = url => {
-      console.log("App is changing to: ", url);
       if (!inputEl.current) return;
       if (!url.includes("search=")) {
         inputEl.current.value = "";

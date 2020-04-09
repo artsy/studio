@@ -5,6 +5,7 @@ import { cloneElement } from "react";
 import useSWR from "swr";
 import fetch from "isomorphic-unfetch";
 import { External } from "react-bytesize-icons";
+import Error from "next/error";
 
 const PageContainer = styled(Box)`
   overflow-y: scroll;
@@ -13,6 +14,8 @@ const PageContainer = styled(Box)`
 interface TeamProps {
   mdx?: boolean;
   data?: any;
+  errorCode?: number;
+  errorMessage?: string;
 }
 
 // const fetcher = (url: string) => fetch(url).then(res => res.json());
@@ -29,6 +32,11 @@ const fetcher = async (url: string) => {
 };
 
 const Team: React.FC<TeamProps> = ({ children, ...props }) => {
+  if (props.errorCode) {
+    return (
+      <Error statusCode={props.errorCode} title={props.errorMessage}></Error>
+    );
+  }
   const { data = [], error } = useSWR("/api/team/all", fetcher, {
     initialData: props.data
   });

@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { H1 } from "../../components/Typography";
 import fetch from "isomorphic-unfetch";
 import { Flex } from "@artsy/palette";
-import { checkUserAuthorization, setTokenCookie } from "../../lib/auth";
+import { redirectAuthorizedUsersWithCookie } from "../../lib/auth";
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -25,13 +25,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   ).then(res => res.json());
 
-  if (await checkUserAuthorization(tokenResults.access_token)) {
-    res.writeHead(302, {
-      Location: query.redirect_to,
-      ...setTokenCookie(tokenResults.access_token)
-    });
-    res.end();
-  }
+  await redirectAuthorizedUsersWithCookie(
+    res,
+    tokenResults.access_token,
+    query.redirect_to as string
+  );
 
   return { props: {} };
 };
