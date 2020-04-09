@@ -6,7 +6,7 @@
     "dev": "dotenv next dev",
     "dev:hasura": "docker-compose up -d && hasura console",
     "build": "next build",
-    "start": "next start"
+    "start": "dotenv next start"
   },
   "dependencies": {
     "@artsy/palette": "^7.8.0",
