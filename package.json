@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "@now/node": "^1.5.0",
-    "@types/cookie": "^0.3.3",
     "@types/csvtojson": "^1.1.5",
     "@types/node-fetch": "^2.5.5",
     "@types/react": "^16.9.23",
