@@ -6,28 +6,23 @@ import {
   Link,
   Serif,
   Spinner,
-  Image,
   Flex,
-  Sans,
   ResponsiveImage,
   Spacer,
-  EnvelopeIcon,
   space,
-  Join,
   Separator
 } from "@artsy/palette";
-import { TeamMember, getPathsForRoute } from "../index";
 import ErrorPage from "next/error";
 import { normalizeParam } from "../../../lib/url";
 import { useMemo } from "react";
 import { H1 } from "../../../components/Typography";
 import RouterLink from "next/link";
 
-export { getStaticProps } from "../index";
+export { getServerSideProps } from "../index";
 
-export const getStaticPaths = getPathsForRoute({
-  route: "name"
-});
+// export const getStaticPaths = getPathsForRoute({
+//   route: "name"
+// });
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");

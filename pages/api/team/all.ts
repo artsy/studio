@@ -1,10 +1,8 @@
-import { NowRequest, NowResponse } from "@now/node";
 import csv from "csvtojson";
-import fetch from "node-fetch";
 import pLimit from "p-limit";
-import needle from "needle";
 import { imageCache } from "../../../lib/models";
 import { hash } from "../../../lib/hash";
+import { authorizedEndpoint, Fetcher } from "../../../lib/auth";
 
 const limit = pLimit(10);
 
@@ -12,26 +10,31 @@ const capitalize = (s: string) => {
   return s[0].toUpperCase() + s.slice(1).toLowerCase();
 };
 
-const resizeImage = (host: string, imageUrl: string, size?: number) => {
+const resizeImage = (
+  fetch: Fetcher,
+  host: string,
+  imageUrl: string,
+  size?: number
+) => {
   host = host.startsWith("http") ? host : `http://${host}`;
-  return needle(
-    "get",
+  return fetch(
     `${host}/api/image/resize?url=${encodeURI(imageUrl)}${
       size ? "&size=" + size : ""
     }`
   )
     .then(res => {
-      if (res.status < 400) {
-        throw new Error(res.body.toString());
+      if (!res.ok) {
+        throw new Error(`Couldn't result image ${imageUrl}`);
       }
-      return res.body.toString();
+      return res.text();
     })
     .catch(err => {
-      console.error("Something went wrong fetching" + err);
+      console.error(err);
     });
 };
 
 const getResizedImageUrl = async (
+  fetch: Fetcher,
   host: string,
   imageUrl: string,
   size: number
@@ -41,8 +44,11 @@ const getResizedImageUrl = async (
   if (cachedImage) {
     return cachedImage;
   }
-  return limit(() => resizeImage(host, imageUrl, size)).then(
+  return limit(() => resizeImage(fetch, host, imageUrl, size)).then(
     async resizedImageUrl => {
+      if (!resizedImageUrl) {
+        return;
+      }
       console.log(`resized ${imageUrl} to ${size}`);
       console.log(resizedImageUrl);
       await imageCache.set(cacheKey, resizedImageUrl);
@@ -51,7 +57,7 @@ const getResizedImageUrl = async (
   );
 };
 
-export default async (req: NowRequest, res: NowResponse) => {
+export default authorizedEndpoint(async (req, res, fetch) => {
   const { host } = req.headers;
   const { SHEETS_URL } = process.env;
 
@@ -84,17 +90,22 @@ export default async (req: NowRequest, res: NowResponse) => {
       }
       if (member.headshot) {
         member.profileImage = await getResizedImageUrl(
+          fetch,
           host,
           member.headshot,
           500
         );
-        member.avatar = await getResizedImageUrl(host, member.headshot, 200);
+        member.avatar = await getResizedImageUrl(
+          fetch,
+          host,
+          member.headshot,
+          200
+        );
       }
       return member;
     });
   const members = await Promise.all(promisedMembers);
 
-  res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate");
   res.status(200).setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(members));
-};
+});
