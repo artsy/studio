@@ -20,10 +20,6 @@ import RouterLink from "next/link";
 
 export { getServerSideProps } from "../index";
 
-// export const getStaticPaths = getPathsForRoute({
-//   route: "name"
-// });
-
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
@@ -34,7 +30,7 @@ const Member = props => {
     return <Spinner />;
   }
 
-  const name = router.query.name;
+  const name = router.query.member;
   let member, manager;
 
   useMemo(() => {
@@ -150,7 +146,8 @@ const Member = props => {
                 </Serif>
                 <Box style={{ flex: 1 }}>
                   <RouterLink
-                    href={`/team/member/${normalizeParam(manager.name)}`}
+                    href={"/team/member/[member]"}
+                    as={`/team/member/${normalizeParam(manager.name)}`}
                     passHref
                   >
                     <Link>

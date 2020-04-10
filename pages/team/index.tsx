@@ -47,7 +47,11 @@ export const TeamMember = props => {
   const { member, showAvatar = true } = props;
 
   return (
-    <RouterLink href={`/team/member/${normalizeParam(member.name)}`} passHref>
+    <RouterLink
+      href="/team/member/[member]"
+      as={`/team/member/${normalizeParam(member.name)}`}
+      passHref
+    >
       <Link underlineBehavior="none">
         <TeamMemberContainer width="390px" p={1} ml={(!showAvatar && -1) || 0}>
           {showAvatar && (
