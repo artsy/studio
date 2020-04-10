@@ -6,7 +6,8 @@
     "dev": "dotenv next dev",
     "dev:hasura": "docker-compose up -d && hasura console",
     "build": "next build",
-    "start": "dotenv next start"
+    "start": "dotenv next start",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@artsy/palette": "^7.8.0",
@@ -40,6 +41,7 @@
     "dotenv-cli": "^3.1.0",
     "hasura-cli": "^1.1.0",
     "p-limit": "^2.2.2",
+    "patch-package": "^6.2.2",
     "styled-components": "4",
     "typescript": "^3.8.3",
     "typescript-styled-plugin": "^0.15.0"
