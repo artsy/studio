@@ -14,8 +14,9 @@ import { AvatarFallback } from "../../components/AvatarFallback";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "../../components/team/NoResults";
-import { normalizeParam, urlFromReq } from "../../lib/url";
+import { normalizeParam, urlFromReq, normalizeSearchTerm } from "../../lib/url";
 import { authorizedPage } from "../../lib/auth";
+import { useSearch } from "../../lib/useSearch";
 
 export const getServerSideProps: GetServerSideProps = authorizedPage(
   async (ctx, fetch) => {
@@ -95,19 +96,13 @@ export const TeamMember = props => {
 
 const TeamNav = props => {
   const { title, data, NoResults = DefaultNoResults } = props;
-  const router = useRouter();
-
-  const normalizeSearchTerm = content => {
-    return content.toLowerCase().replace(/\s/g, "");
-  };
+  const searchTerm = useSearch();
 
   const group = {};
   data
-    .filter(member =>
-      normalizeSearchTerm(member.name).includes(
-        normalizeSearchTerm(router.query.search || "")
-      )
-    )
+    .filter(member => {
+      return normalizeSearchTerm(member.name).includes(searchTerm);
+    })
     .forEach(member => {
       const firstLetter = member.name[0];
       if (!group[firstLetter]) {

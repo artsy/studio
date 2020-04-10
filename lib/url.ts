@@ -8,3 +8,7 @@ export const urlFromReq = (req: IncomingMessage) => {
   const protocol = host.split(":")[0] === "localhost" ? "http" : "https";
   return `${protocol}://${host}`;
 };
+
+export const normalizeSearchTerm = content => {
+  return content.toLowerCase().replace(/\s/g, "");
+};

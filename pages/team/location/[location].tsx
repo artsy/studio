@@ -4,11 +4,6 @@ import { Spinner } from "@artsy/palette";
 import { normalizeParam } from "../../../lib/url";
 import { NoResults } from "../../../components/team/NoResults";
 
-// export const getStaticPaths = getPathsForRoute({
-//   route: "location",
-//   key: "city"
-// });
-
 export { getServerSideProps } from "../index";
 
 const Location = props => {

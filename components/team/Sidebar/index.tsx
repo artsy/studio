@@ -34,9 +34,10 @@ const search = debounce((router: NextRouter, searchTerm: string) => {
   searchParam
     ? router.push(
         { pathname, query: as ? {} : { search: searchParam } },
-        as && { pathname: as, query: { search: searchParam } }
+        as && { pathname: as, query: { search: searchParam } },
+        { shallow: true }
       )
-    : router.push(pathname, as);
+    : router.push(pathname, as, { shallow: true });
 }, 200);
 
 const aggregateMemberLinks = (members, field, prefix) => {
