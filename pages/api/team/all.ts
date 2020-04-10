@@ -3,6 +3,7 @@ import pLimit from "p-limit";
 import { imageCache } from "../../../lib/models";
 import { hash } from "../../../lib/hash";
 import { authorizedEndpoint, Fetcher } from "../../../lib/auth";
+import { urlFromReq } from "../../../lib/url";
 
 const limit = pLimit(10);
 
@@ -12,13 +13,12 @@ const capitalize = (s: string) => {
 
 const resizeImage = (
   fetch: Fetcher,
-  host: string,
+  url: string,
   imageUrl: string,
   size?: number
 ) => {
-  host = host.startsWith("http") ? host : `http://${host}`;
   return fetch(
-    `${host}/api/image/resize?url=${encodeURI(imageUrl)}${
+    `${url}/api/image/resize?url=${encodeURI(imageUrl)}${
       size ? "&size=" + size : ""
     }`
   )
@@ -35,7 +35,7 @@ const resizeImage = (
 
 const getResizedImageUrl = async (
   fetch: Fetcher,
-  host: string,
+  url: string,
   imageUrl: string,
   size: number
 ): Promise<string> => {
@@ -44,7 +44,7 @@ const getResizedImageUrl = async (
   if (cachedImage) {
     return cachedImage;
   }
-  return limit(() => resizeImage(fetch, host, imageUrl, size)).then(
+  return limit(() => resizeImage(fetch, url, imageUrl, size)).then(
     async resizedImageUrl => {
       if (!resizedImageUrl) {
         return;
@@ -58,7 +58,7 @@ const getResizedImageUrl = async (
 };
 
 export default authorizedEndpoint(async (req, res, fetch) => {
-  const { host } = req.headers;
+  const url = urlFromReq(req);
   const { SHEETS_URL } = process.env;
 
   if (typeof SHEETS_URL !== "string") {
@@ -91,13 +91,13 @@ export default authorizedEndpoint(async (req, res, fetch) => {
       if (member.headshot) {
         member.profileImage = await getResizedImageUrl(
           fetch,
-          host,
+          url,
           member.headshot,
           500
         );
         member.avatar = await getResizedImageUrl(
           fetch,
-          host,
+          url,
           member.headshot,
           200
         );

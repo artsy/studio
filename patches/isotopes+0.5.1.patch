@@ -1,0 +1,195 @@
+diff --git a/node_modules/isotopes/dist/index.js b/node_modules/isotopes/dist/index.js
+index 9eb4c3c..413a5cf 100644
+--- a/node_modules/isotopes/dist/index.js
++++ b/node_modules/isotopes/dist/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ /*
+- * Copyright (c) 2018 Martin Donath <martin.donath@squidfunk.com>
++ * Copyright (c) 2018-2020 Martin Donath <martin.donath@squidfunk.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to
+diff --git a/node_modules/isotopes/dist/isotopes/client/index.d.ts b/node_modules/isotopes/dist/isotopes/client/index.d.ts
+index 8de437b..521fb0e 100644
+--- a/node_modules/isotopes/dist/isotopes/client/index.d.ts
++++ b/node_modules/isotopes/dist/isotopes/client/index.d.ts
+@@ -54,8 +54,9 @@ export declare class IsotopeClient {
+      *
+      * @param domain - SimpleDB domain name
+      * @param options - Client options
++     * @param simpleDBOptions - Options to pass directly to SimpleDB constructor
+      */
+-    constructor(domain: string, options?: IsotopeClientOptions);
++    constructor(domain: string, options?: IsotopeClientOptions, simpleDBOptions?: SimpleDB.ClientConfiguration);
+     /**
+      * Create the SimpleDB domain
+      *
+diff --git a/node_modules/isotopes/dist/isotopes/client/index.js b/node_modules/isotopes/dist/isotopes/client/index.js
+index 57c5c59..01f2db6 100644
+--- a/node_modules/isotopes/dist/isotopes/client/index.js
++++ b/node_modules/isotopes/dist/isotopes/client/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ /*
+- * Copyright (c) 2018 Martin Donath <martin.donath@squidfunk.com>
++ * Copyright (c) 2018-2020 Martin Donath <martin.donath@squidfunk.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to
+@@ -63,7 +63,7 @@ exports.mapDictionaryToAttributes = mapDictionaryToAttributes;
+  */
+ function mapAttributesToDictionary(attrs) {
+     return attrs
+-        .reduce((dict, { Name, Value }) => (Object.assign({}, dict, (Name.match(/\[\]$/)
++        .reduce((dict, { Name, Value }) => (Object.assign(Object.assign({}, dict), (Name.match(/\[\]$/)
+         ? { [Name]: [...(dict[Name] || []), Value] }
+         : { [Name]: Value }))), {});
+ }
+@@ -80,11 +80,12 @@ class IsotopeClient {
+      *
+      * @param domain - SimpleDB domain name
+      * @param options - Client options
++     * @param simpleDBOptions - Options to pass directly to SimpleDB constructor
+      */
+-    constructor(domain, options) {
++    constructor(domain, options, simpleDBOptions) {
+         this.domain = domain;
+-        this.options = Object.assign({}, defaultOptions, options);
+-        this.simpledb = new aws_sdk_1.SimpleDB({ apiVersion: "2009-04-15" });
++        this.options = Object.assign(Object.assign({}, defaultOptions), options);
++        this.simpledb = new aws_sdk_1.SimpleDB(Object.assign(Object.assign({}, simpleDBOptions), { apiVersion: "2009-04-15" }));
+     }
+     /**
+      * Create the SimpleDB domain
+diff --git a/node_modules/isotopes/dist/isotopes/format/encoding/index.js b/node_modules/isotopes/dist/isotopes/format/encoding/index.js
+index 99ac3a9..6b52157 100644
+--- a/node_modules/isotopes/dist/isotopes/format/encoding/index.js
++++ b/node_modules/isotopes/dist/isotopes/format/encoding/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ /*
+- * Copyright (c) 2018 Martin Donath <martin.donath@squidfunk.com>
++ * Copyright (c) 2018-2020 Martin Donath <martin.donath@squidfunk.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to
+diff --git a/node_modules/isotopes/dist/isotopes/format/index.js b/node_modules/isotopes/dist/isotopes/format/index.js
+index ecbfd42..ff19795 100644
+--- a/node_modules/isotopes/dist/isotopes/format/index.js
++++ b/node_modules/isotopes/dist/isotopes/format/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ /*
+- * Copyright (c) 2018 Martin Donath <martin.donath@squidfunk.com>
++ * Copyright (c) 2018-2020 Martin Donath <martin.donath@squidfunk.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to
+@@ -48,20 +48,20 @@ const defaultOptions = {
+  * @return Encoded dictionary
+  */
+ function flatten(data, options = {}, path = []) {
+-    const { encoding, multiple } = Object.assign({}, defaultOptions, options);
++    const { encoding, multiple } = Object.assign(Object.assign({}, defaultOptions), options);
+     return fp_1.toPairs(data)
+         .reduce((dict, [name, value]) => {
+         /* Recurse on objects and add name to prefix path */
+         if (fp_1.isPlainObject(value)) {
+-            return Object.assign({}, dict, flatten(value, { encoding, multiple }, [...path, name]));
++            return Object.assign(Object.assign({}, dict), flatten(value, { encoding, multiple }, [...path, name]));
+             /* Encode array values separately */
+         }
+         else if (multiple && fp_1.isArray(value)) {
+-            return Object.assign({}, dict, { [[...path, name + "[]"].join(".")]: value.map(entry => encoding_1.encode(entry, encoding)) });
++            return Object.assign(Object.assign({}, dict), { [[...path, name + "[]"].join(".")]: value.map(entry => encoding_1.encode(entry, encoding)) });
+             /* Encode all other values */
+         }
+         else {
+-            return Object.assign({}, dict, { [[...path, name].join(".")]: encoding_1.encode(value, encoding) });
++            return Object.assign(Object.assign({}, dict), { [[...path, name].join(".")]: encoding_1.encode(value, encoding) });
+         }
+     }, {});
+ }
+@@ -77,7 +77,7 @@ exports.flatten = flatten;
+  * @return Decoded data
+  */
+ function unflatten(dict, options = {}) {
+-    const { encoding } = Object.assign({}, defaultOptions, options);
++    const { encoding } = Object.assign(Object.assign({}, defaultOptions), options);
+     return fp_1.toPairs(dict)
+         .reduce((data, [name, value]) => {
+         /* Handle all array values separately */
+diff --git a/node_modules/isotopes/dist/isotopes/index.d.ts b/node_modules/isotopes/dist/isotopes/index.d.ts
+index e268f00..c8270e7 100644
+--- a/node_modules/isotopes/dist/isotopes/index.d.ts
++++ b/node_modules/isotopes/dist/isotopes/index.d.ts
+@@ -2,6 +2,7 @@ import { IsotopeClient, IsotopeClientOptions } from "./client";
+ import { IsotopeFormatOptions } from "./format";
+ import { IsotopeSelect } from "./select";
+ import { DeepPartial } from "./utilities";
++import { SimpleDB } from "aws-sdk";
+ /**
+  * Isotope options
+  *
+@@ -62,8 +63,9 @@ export declare class Isotope<T extends {}, TPut extends DeepPartial<T> = T, TGet
+      * Initialize an isotope
+      *
+      * @param options - Options
++     * @param simpleDBOptions -- Any configuration to be passed directly to SimpleDB
+      */
+-    constructor(options: IsotopeOptions<T>);
++    constructor(options: IsotopeOptions<T>, simpleDBOptions?: SimpleDB.ClientConfiguration);
+     /**
+      * Create an SQL query builder
+      *
+diff --git a/node_modules/isotopes/dist/isotopes/index.js b/node_modules/isotopes/dist/isotopes/index.js
+index e802ed7..3108d58 100644
+--- a/node_modules/isotopes/dist/isotopes/index.js
++++ b/node_modules/isotopes/dist/isotopes/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ /*
+- * Copyright (c) 2018 Martin Donath <martin.donath@squidfunk.com>
++ * Copyright (c) 2018-2020 Martin Donath <martin.donath@squidfunk.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to
+@@ -63,10 +63,11 @@ class Isotope {
+      * Initialize an isotope
+      *
+      * @param options - Options
++     * @param simpleDBOptions -- Any configuration to be passed directly to SimpleDB
+      */
+-    constructor(options) {
++    constructor(options, simpleDBOptions) {
+         this.options = options;
+-        this.client = new client_1.IsotopeClient(options.domain);
++        this.client = new client_1.IsotopeClient(options.domain, undefined, simpleDBOptions);
+     }
+     /**
+      * Create an SQL query builder
+diff --git a/node_modules/isotopes/dist/isotopes/select/index.js b/node_modules/isotopes/dist/isotopes/select/index.js
+index 2679a3e..b970908 100644
+--- a/node_modules/isotopes/dist/isotopes/select/index.js
++++ b/node_modules/isotopes/dist/isotopes/select/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ /*
+- * Copyright (c) 2018 Martin Donath <martin.donath@squidfunk.com>
++ * Copyright (c) 2018-2020 Martin Donath <martin.donath@squidfunk.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to
+diff --git a/node_modules/isotopes/dist/isotopes/utilities/index.js b/node_modules/isotopes/dist/isotopes/utilities/index.js
+index 251b49a..6432df2 100644
+--- a/node_modules/isotopes/dist/isotopes/utilities/index.js
++++ b/node_modules/isotopes/dist/isotopes/utilities/index.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ /*
+- * Copyright (c) 2018 Martin Donath <martin.donath@squidfunk.com>
++ * Copyright (c) 2018-2020 Martin Donath <martin.donath@squidfunk.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to

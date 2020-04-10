@@ -1,0 +1,12 @@
+{
+  "env": {
+    "SHEETS_URL": "@studio-sheets-url",
+    "ACCESS_KEY_ID": "@studio-access-key-id",
+    "SECRET_ACCESS_KEY": "@studio-secret-access-key",
+    "REGION": "@studio-region",
+    "IMAGE_BUCKET": "@studio-image-bucket",
+    "APP_ID": "@studio-app-id",
+    "APP_SECRET": "@studio-app-secret",
+    "COOKIE_SECRET": "@studio-cookie-secret"
+  }
+}

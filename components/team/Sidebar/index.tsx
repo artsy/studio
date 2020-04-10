@@ -32,7 +32,10 @@ const search = debounce((router: NextRouter, searchTerm: string) => {
     : undefined;
 
   searchParam
-    ? router.push(pathname, as, { query: { search: searchParam } })
+    ? router.push(
+        { pathname, query: as ? {} : { search: searchParam } },
+        as && { pathname: as, query: { search: searchParam } }
+      )
     : router.push(pathname, as);
 }, 200);
 

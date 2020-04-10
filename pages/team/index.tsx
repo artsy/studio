@@ -14,14 +14,12 @@ import { AvatarFallback } from "../../components/AvatarFallback";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "../../components/team/NoResults";
-import { normalizeParam } from "../../lib/url";
+import { normalizeParam, urlFromReq } from "../../lib/url";
 import { authorizedPage } from "../../lib/auth";
 
 export const getServerSideProps: GetServerSideProps = authorizedPage(
-  async (_, fetch) => {
-    const res = await fetch(`http://localhost:3000/api/team/all`, {
-      credentials: "include"
-    });
+  async (ctx, fetch) => {
+    const res = await fetch(`${urlFromReq(ctx.req)}/api/team/all`);
     if (!res.ok) {
       return { props: { errorCode: res.status, errorMessage: res.statusText } };
     }

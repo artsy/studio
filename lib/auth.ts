@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import { NowRequest, NowResponse } from "@now/node";
 import fetch from "isomorphic-unfetch";
 import { IncomingMessage, ServerResponse } from "http";
+import { urlFromReq } from "./url";
 
 const COOKIE_NAME = "artsy-studio-user-token";
 type Context = Parameters<GetServerSideProps>[0];
@@ -27,6 +28,7 @@ export const authorizedEndpoint = (
 ) => {
   return async (req: NowRequest, res: NowResponse) => {
     if (verifyCookie(req, res)) {
+      res.setHeader("Cache-Control", "no-cache");
       const fetcher = createAuthenticatedFetcher(req);
       return lambda(req, res, fetcher);
     }
@@ -41,6 +43,7 @@ export const authorizedPage = (
 ): GetServerSideProps => {
   return async (context: Context) => {
     if (await verifyServerSideAuthorization(context)) {
+      context.res.setHeader("Cache-Control", "no-cache");
       const fetcher = createAuthenticatedFetcher(context.req);
       return getServerSideProps(context, fetcher);
     }
@@ -50,7 +53,6 @@ export const authorizedPage = (
 
 export const verifyServerSideAuthorization = async (context: Context) => {
   const { req, res } = context;
-  const { host } = req.headers;
 
   const { user } =
     cookie.get(req, COOKIE_NAME, process.env.COOKIE_SECRET, true) ?? {};
@@ -59,7 +61,7 @@ export const verifyServerSideAuthorization = async (context: Context) => {
     res.writeHead(302, {
       Location: `https://stagingapi.artsy.net/oauth2/authorize?client_id=${
         process.env.APP_ID
-      }&redirect_uri=http://${host}/oauth2/callback?redirect_to=${encodeURI(
+      }&redirect_uri=${urlFromReq(req)}/oauth2/callback?redirect_to=${encodeURI(
         req.url
       )}&response_type=code`
     });

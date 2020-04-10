@@ -10,7 +10,7 @@ const streamToS3 = (
   done: (err: Error, data: S3.ManagedUpload.SendData) => void
 ) => {
   const pass = new stream.PassThrough();
-  const params = {
+  const params: S3.PutObjectRequest = {
     Bucket: process.env.IMAGE_BUCKET,
     Key: key,
     Body: pass,
@@ -21,7 +21,11 @@ const streamToS3 = (
 };
 
 export default authorizedEndpoint(async (req, res, fetch) => {
-  const s3 = new S3();
+  const s3 = new S3({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    region: process.env.REGION
+  });
   const { url, size = 200 } = req.query;
   if (typeof url !== "string") {
     res.status(422).send("No url provided");
