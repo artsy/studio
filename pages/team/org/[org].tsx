@@ -6,8 +6,6 @@ import { NoResults } from "../../../components/team/NoResults";
 
 export { getServerSideProps } from "../index";
 
-// export const getStaticPaths = getPathsForRoute({ route: "org" });
-
 const Organization = props => {
   const router = useRouter();
 

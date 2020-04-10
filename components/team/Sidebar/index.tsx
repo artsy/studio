@@ -20,20 +20,20 @@ import { normalizeParam } from "../../../lib/url";
 
 const search = debounce((router: NextRouter, searchTerm: string) => {
   const searchParam = encodeURI(searchTerm);
-  const pathname = ["team", "[location]", "[org]", "[team]"].some(route =>
-    router.pathname.endsWith(route)
-  )
+  const searchFromCurrentPath = [
+    "team",
+    "[location]",
+    "[org]",
+    "[team]"
+  ].some(route => router.pathname.endsWith(route));
+  const pathname = searchFromCurrentPath ? router.pathname : "/team";
+  const as = pathname.match(/\[[\w-]+\]/)
     ? router.asPath.split("?")[0]
-    : "/team";
+    : undefined;
 
   searchParam
-    ? router.push({
-        pathname,
-        query: { search: searchParam }
-      })
-    : router.push({
-        pathname
-      });
+    ? router.push(pathname, as, { query: { search: searchParam } })
+    : router.push(pathname, as);
 }, 200);
 
 const aggregateMemberLinks = (members, field, prefix) => {
@@ -41,7 +41,8 @@ const aggregateMemberLinks = (members, field, prefix) => {
     .map(([fieldValue, group]) => ({
       text: fieldValue,
       count: (group as any)?.length,
-      href: `/team/${prefix}/${normalizeParam(fieldValue)}`
+      href: `/team/${prefix}/[${prefix}]`,
+      as: `/team/${prefix}/${normalizeParam(fieldValue)}`
     }))
     .filter(({ text }) => text);
 };
