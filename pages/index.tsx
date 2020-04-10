@@ -1,12 +1,6 @@
 import Head from "next/head";
 import { ArtsyLogoBlackIcon, Flex, Spacer, Sans } from "@artsy/palette";
 import { H1 } from "../components/Typography";
-import { GetServerSideProps } from "next";
-
-export const getServerSideProps: GetServerSideProps = async ctx => {
-  console.log(ctx.req.headers);
-  return { props: {} };
-};
 
 const Home = () => (
   <div className="container">
