@@ -1,6 +1,6 @@
 import { Box, Flex } from "@artsy/palette";
-import { BareHeader } from "../../components/BareHeader";
-import { Sidebar } from "../../components/dashboard/Sidebar";
+import { BareHeader } from "components/BareHeader";
+import { Sidebar } from "components/dashboard/Sidebar";
 import Error from "next/error";
 
 export const Layout = ({ children, ...props }) => {

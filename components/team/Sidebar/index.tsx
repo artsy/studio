@@ -7,7 +7,7 @@ import {
   Box,
   Link,
   Spacer,
-  Sans
+  Sans,
 } from "@artsy/palette";
 import { LinkConfig, LinkSection } from "./LinkSection";
 import styled from "styled-components";
@@ -16,7 +16,7 @@ import RouteLink from "next/link";
 import Router, { NextRouter, useRouter } from "next/router";
 import { debounce } from "debounce";
 import { useRef, useEffect } from "react";
-import { normalizeParam } from "../../../lib/url";
+import { normalizeParam } from "lib/url";
 
 const search = debounce((router: NextRouter, searchTerm: string) => {
   const searchParam = encodeURI(searchTerm);
@@ -24,8 +24,8 @@ const search = debounce((router: NextRouter, searchTerm: string) => {
     "team",
     "[location]",
     "[org]",
-    "[team]"
-  ].some(route => router.pathname.endsWith(route));
+    "[team]",
+  ].some((route) => router.pathname.endsWith(route));
   const pathname = searchFromCurrentPath ? router.pathname : "/team";
   const as = pathname.match(/\[[\w-]+\]/)
     ? router.asPath.split("?")[0]
@@ -45,7 +45,7 @@ const aggregateMemberLinks = (members, field, prefix) => {
       text: fieldValue,
       count: (group as any)?.length,
       href: `/team/${prefix}/[${prefix}]`,
-      as: `/team/${prefix}/${normalizeParam(fieldValue)}`
+      as: `/team/${prefix}/${normalizeParam(fieldValue)}`,
     }))
     .filter(({ text }) => text);
 };
@@ -54,26 +54,26 @@ const helpfulLinks: LinkConfig[] = [
   {
     text: "Atlas",
     external: true,
-    href: "https://atlas.artsy.net"
+    href: "https://atlas.artsy.net",
   },
   {
     text: "NYC OfficeSpace",
     external: true,
-    href: "https://artsy.officespacesoftware.com/visual-directory/floors/12"
+    href: "https://artsy.officespacesoftware.com/visual-directory/floors/12",
   },
   {
     text: "LDN OfficeSpace",
     external: true,
-    href: "https://artsy.officespacesoftware.com/visual-directory/floors/11"
+    href: "https://artsy.officespacesoftware.com/visual-directory/floors/11",
   },
   {
     text: "Who is New?",
-    href: "/team/who-is-new"
+    href: "/team/who-is-new",
   },
   {
     text: "Did you know?",
-    href: "/team/did-you-know"
-  }
+    href: "/team/did-you-know",
+  },
 ];
 
 const SidebarContainer = styled(Flex)`
@@ -89,7 +89,7 @@ export const Sidebar = ({ data }: SidebarProps) => {
   const router = useRouter();
   const inputEl = useRef(null);
   useEffect(() => {
-    const handleRouteChange = url => {
+    const handleRouteChange = (url) => {
       if (!inputEl.current) return;
       if (!url.includes("search=")) {
         inputEl.current.value = "";
@@ -132,7 +132,7 @@ export const Sidebar = ({ data }: SidebarProps) => {
                 : ""
             }
             placeholder="Search team members"
-            onChange={e => {
+            onChange={(e) => {
               const { value } = e.target as any;
               search(router, value);
             }}

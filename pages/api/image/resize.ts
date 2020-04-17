@@ -1,8 +1,8 @@
 import sharp from "sharp";
 import S3 from "aws-sdk/clients/s3";
 import stream from "stream";
-import { hash } from "../../../lib/hash";
-import { authorizedEndpoint } from "../../../lib/auth";
+import { hash } from "lib/hash";
+import { authorizedEndpoint } from "lib/auth";
 
 const streamToS3 = (
   s3: S3,
@@ -14,7 +14,7 @@ const streamToS3 = (
     Bucket: process.env.IMAGE_BUCKET,
     Key: key,
     Body: pass,
-    ACL: "public-read"
+    ACL: "public-read",
   };
   s3.upload(params, done);
   return pass;
@@ -24,7 +24,7 @@ export default authorizedEndpoint(async (req, res, fetch) => {
   const s3 = new S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretAccessKey: process.env.SECRET_ACCESS_KEY,
-    region: process.env.REGION
+    region: process.env.REGION,
   });
   const { url, size = 200 } = req.query;
   if (typeof url !== "string") {
@@ -40,8 +40,8 @@ export default authorizedEndpoint(async (req, res, fetch) => {
     .resize(parseInt(size as any), parseInt(size as any));
 
   await fetch(imageUrl.href)
-    .then(imgRes => {
-      return new Promise(resolve => {
+    .then((imgRes) => {
+      return new Promise((resolve) => {
         if (imgRes.status >= 400) {
           res.status(404).send(`${imageUrl} couldn't be found`);
           res.end();
@@ -68,7 +68,7 @@ export default authorizedEndpoint(async (req, res, fetch) => {
         );
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Could not resise image:", err);
       res.status(422).send("Unable to process image" + err);
       res.end();

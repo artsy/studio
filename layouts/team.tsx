@@ -1,5 +1,5 @@
-import { Layout } from "../pages/team/_layout";
-import { H1 } from "../components/Typography";
+import { Layout } from "pages/team/_layout";
+import { H1 } from "components/Typography";
 
 export default (frontMatter) => {
   return ({ children }) => (

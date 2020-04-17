@@ -1,5 +1,5 @@
 import { Box, Flex, space, Serif, Link, color, Spacer } from "@artsy/palette";
-import { Sidebar } from "../../components/team/Sidebar";
+import { Sidebar } from "components/team/Sidebar";
 import styled from "styled-components";
 import { cloneElement } from "react";
 import useSWR from "swr";

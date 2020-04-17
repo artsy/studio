@@ -5,17 +5,17 @@ import {
   Flex,
   Separator,
   Link,
-  color
+  color,
 } from "@artsy/palette";
 import styled from "styled-components";
 import { GetServerSideProps } from "next";
-import { H1 } from "../../components/Typography";
-import { AvatarFallback } from "../../components/AvatarFallback";
+import { H1 } from "components/Typography";
+import { AvatarFallback } from "components/AvatarFallback";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
-import { NoResults as DefaultNoResults } from "../../components/team/NoResults";
-import { normalizeParam, urlFromReq } from "../../lib/url";
-import { authorizedPage } from "../../lib/auth";
+import { NoResults as DefaultNoResults } from "components/team/NoResults";
+import { normalizeParam, urlFromReq } from "lib/url";
+import { authorizedPage } from "lib/auth";
 
 export const getServerSideProps: GetServerSideProps = authorizedPage(
   async (ctx, fetch) => {
@@ -41,9 +41,9 @@ const AvatarContainer = styled(Box)`
 `;
 
 const location = ({ city, floor }) =>
-  [city, floor && `Fl. ${floor}`].filter(v => v).join(", ");
+  [city, floor && `Fl. ${floor}`].filter((v) => v).join(", ");
 
-export const TeamMember = props => {
+export const TeamMember = (props) => {
   const { member, showAvatar = true } = props;
 
   return (
@@ -93,22 +93,22 @@ export const TeamMember = props => {
   );
 };
 
-const TeamNav = props => {
+const TeamNav = (props) => {
   const { title, data, NoResults = DefaultNoResults } = props;
   const router = useRouter();
 
-  const normalizeSearchTerm = content => {
+  const normalizeSearchTerm = (content) => {
     return content.toLowerCase().replace(/\s/g, "");
   };
 
   const group = {};
   data
-    .filter(member =>
+    .filter((member) =>
       normalizeSearchTerm(member.name).includes(
         normalizeSearchTerm(router.query.search || "")
       )
     )
-    .forEach(member => {
+    .forEach((member) => {
       const firstLetter = member.name[0];
       if (!group[firstLetter]) {
         group[firstLetter] = [];
@@ -135,7 +135,7 @@ const TeamNav = props => {
               <Box key={`group-${firstLetter}`} width="100%">
                 <H1>{firstLetter}</H1>
                 <Flex flexWrap="wrap">
-                  {members.map(member => (
+                  {members.map((member) => (
                     <TeamMember key={member.name} member={member} />
                   ))}
                 </Flex>

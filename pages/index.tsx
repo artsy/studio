@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { ArtsyLogoBlackIcon, Flex, Spacer, Sans } from "@artsy/palette";
-import { H1 } from "../components/Typography";
+import { H1 } from "components/Typography";
 
 const Home = () => (
   <div className="container">
