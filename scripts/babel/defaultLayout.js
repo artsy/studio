@@ -1,17 +1,23 @@
 const path = require("path");
-const fs = require("fs");
+const findUp = require("find-up");
 
-const getFilename = state => state.file.opts.filename;
+const getFilename = (state) => state.file.opts.filename;
 
-const setDefaultPluginState = state => {
+const setDefaultPluginState = (state) => {
   state.defaultLayoutPlugin = {
-    defaultExportName: null
+    defaultExportName: null,
+    errorModuleName: null,
   };
 };
 
-const getPluginState = state => state.defaultLayoutPlugin;
+const getPluginState = (state) => state.defaultLayoutPlugin;
 
-const shouldProcessFile = state => {
+const isLayoutFile = (state) => {
+  const filename = getFilename(state);
+  return path.basename(filename) === "_layout.tsx";
+};
+
+const shouldProcessFile = (state) => {
   const filename = getFilename(state);
   if (
     filename.includes("node_modules") ||
@@ -24,43 +30,81 @@ const shouldProcessFile = state => {
   return true;
 };
 
+const prependCodeToFile = (parse, program, state, code) => {
+  program.unshiftContainer(
+    "body",
+    parse(code, {
+      filename: getFilename(state),
+      sourceType: "module",
+      presets: ["next/babel"],
+    }).program.body[0]
+  );
+};
+
 const appendCodeToFile = (parse, program, state, code) => {
   program.pushContainer(
     "body",
     parse(code, {
       filename: getFilename(state),
       sourceType: "module",
-      presets: ["next/babel"]
+      presets: ["next/babel"],
     }).program.body[0]
   );
 };
 
 const addLayoutToFile = (parse, program, state) => {
   const { defaultExportName } = getPluginState(state);
-  const dirname = getFilename(state)
-    .split("/pages/")[1]
-    .split("/")[0];
-  if (fs.existsSync(path.join(process.cwd(), `layouts/${dirname}.tsx`))) {
+  const filePath = getFilename(state);
+  const layout = findUp.sync(
+    (directory) => {
+      const layoutFilePath = path.join(directory, "_layout.tsx");
+      if (findUp.exists(layoutFilePath)) {
+        return layoutFilePath;
+      }
+      if (
+        path.basename(directory) === "pages" &&
+        directory.match(/\/pages/g).length === 1
+      ) {
+        return findUp.stop;
+      }
+    },
+    {
+      cwd: path.dirname(filePath),
+      type: "file",
+    }
+  );
+  if (layout) {
     appendCodeToFile(
       parse,
       program,
       state,
-      `${defaultExportName}.Layout = require("${process.cwd()}/layouts/${dirname}").default`
+      `${defaultExportName}.Layout = require("${layout}").Layout`
     );
   }
 };
 
-module.exports = function({ types: t, parse }) {
+module.exports = function ({ types: t, parse }) {
   return {
     name: "next-default-layout",
     visitor: {
+      ImportDeclaration(importDeclaration, state) {
+        if (!isLayoutFile(state)) return;
+        if (importDeclaration.node.source.value === "next/error") {
+          importDeclaration.traverse({
+            ImportDefaultSpecifier(p) {
+              getPluginState(state).errorModuleName = p.node.local.name;
+            },
+          });
+        }
+        return;
+      },
       ExportDefaultDeclaration(defaultExport, state) {
         if (!shouldProcessFile(state)) return;
         defaultExport.traverse({
           Identifier(p) {
-            state.defaultLayoutPlugin.defaultExportName = p.node.name;
+            getPluginState(state).defaultExportName = p.node.name;
             p.stop();
-          }
+          },
         });
       },
       Program: {
@@ -68,6 +112,31 @@ module.exports = function({ types: t, parse }) {
           setDefaultPluginState(state);
         },
         exit(program, state) {
+          if (isLayoutFile(state)) {
+            const errorName = getPluginState(state).errorModuleName;
+            if (errorName) {
+              appendCodeToFile(
+                parse,
+                program,
+                state,
+                `export default () => <${errorName} statusCode={404} />`
+              );
+            } else {
+              prependCodeToFile(
+                parse,
+                program,
+                state,
+                `import Error from "next/error"`
+              );
+              appendCodeToFile(
+                parse,
+                program,
+                state,
+                `export default () => <Error statusCode={404}/>`
+              );
+            }
+            return;
+          }
           if (
             !shouldProcessFile(state) ||
             !getPluginState(state).defaultExportName
@@ -86,43 +155,14 @@ module.exports = function({ types: t, parse }) {
                 getLayoutIsAlreadyDefined = true;
                 path.stop();
               }
-            }
+            },
           });
 
           if (!getLayoutIsAlreadyDefined) {
             addLayoutToFile(parse, program, state);
           }
-        }
-      }
-    }
+        },
+      },
+    },
   };
 };
-
-/*
-
-export default function(babel, ...args) {
-  const { types: t, template } = babel;
-
-  return {
-    name: "ast-transform", // not required
-    visitor: {
-      ExportNamedDeclaration(path) {
-        let d;
-        if (path.node.declaration.declarations) {
-          d = path.node.declaration.declarations[0].id.name;
-        } else {
-          d = path.node.declaration.id.name;
-        }
-        exports.push(d);
-      },
-      Program: {
-        exit(path) {
-          path.pushContainer("body", layout());
-        }
-      }
-    }
-  };
-}
-
-
-*/

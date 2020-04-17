@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import TeamNav from "../index";
 import { Spinner } from "@artsy/palette";
-import { normalizeParam } from "../../../lib/url";
-import { NoResults } from "../../../components/team/NoResults";
+import { normalizeParam } from "lib/url";
+import { NoResults } from "components/team/NoResults";
 
 export { getServerSideProps } from "../index";
 
-const Team = props => {
+const Team = (props) => {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -16,7 +16,7 @@ const Team = props => {
   const team = router.query.team;
   let formattedTeam = "";
 
-  const data = props.data.filter(member => {
+  const data = props.data.filter((member) => {
     if (normalizeParam(member.team) === team) {
       formattedTeam = member.team;
       return true;

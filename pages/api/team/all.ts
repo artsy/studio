@@ -1,9 +1,9 @@
 import csv from "csvtojson";
 import pLimit from "p-limit";
-import { imageCache } from "../../../lib/models";
-import { hash } from "../../../lib/hash";
-import { authorizedEndpoint, Fetcher } from "../../../lib/auth";
-import { urlFromReq } from "../../../lib/url";
+import { imageCache } from "lib/models";
+import { hash } from "lib/hash";
+import { authorizedEndpoint, Fetcher } from "lib/auth";
+import { urlFromReq } from "lib/url";
 
 const limit = pLimit(10);
 
@@ -22,13 +22,13 @@ const resizeImage = (
       size ? "&size=" + size : ""
     }`
   )
-    .then(res => {
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`Couldn't result image ${imageUrl}`);
       }
       return res.text();
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
 };
@@ -45,7 +45,7 @@ const getResizedImageUrl = async (
     return cachedImage;
   }
   return limit(() => resizeImage(fetch, url, imageUrl, size)).then(
-    async resizedImageUrl => {
+    async (resizedImageUrl) => {
       if (!resizedImageUrl) {
         return;
       }
@@ -68,12 +68,12 @@ export default authorizedEndpoint(async (req, res, fetch) => {
   }
 
   const parsed = await fetch(SHEETS_URL)
-    .then(res => res.text())
-    .then(csvContent => csv().fromString(csvContent));
+    .then((res) => res.text())
+    .then((csvContent) => csv().fromString(csvContent));
 
   const seen = new Set();
   const promisedMembers = parsed
-    .filter(member => {
+    .filter((member) => {
       if (member.name && !seen.has(member.name)) {
         seen.add(member.name);
         return true;
@@ -81,11 +81,11 @@ export default authorizedEndpoint(async (req, res, fetch) => {
       return false;
     })
     .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
-    .map(async member => {
+    .map(async (member) => {
       if (member.preferred_pronouns) {
         member.preferred_pronouns = member.preferred_pronouns
           .split("/")
-          .map(p => capitalize(p))
+          .map((p) => capitalize(p))
           .join("/");
       }
       if (member.headshot) {

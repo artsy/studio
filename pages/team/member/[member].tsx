@@ -10,12 +10,12 @@ import {
   ResponsiveImage,
   Spacer,
   space,
-  Separator
+  Separator,
 } from "@artsy/palette";
 import ErrorPage from "next/error";
-import { normalizeParam } from "../../../lib/url";
+import { normalizeParam } from "lib/url";
 import { useMemo } from "react";
-import { H1 } from "../../../components/Typography";
+import { H1 } from "components/Typography";
 import RouterLink from "next/link";
 
 export { getServerSideProps } from "../index";
@@ -23,7 +23,7 @@ export { getServerSideProps } from "../index";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const Member = props => {
+const Member = (props) => {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -34,11 +34,11 @@ const Member = props => {
   let member, manager;
 
   useMemo(() => {
-    member = props.data.find(employee => {
+    member = props.data.find((employee) => {
       return normalizeParam(employee.name) === name;
     });
     if (member?.reports_to) {
-      manager = props.data.find(employee => {
+      manager = props.data.find((employee) => {
         return employee.name === member.reports_to;
       });
     }

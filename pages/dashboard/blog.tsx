@@ -1,14 +1,14 @@
 import { Flex, Sans, Tabs, Tab, space } from "@artsy/palette";
 import styled from "styled-components";
-import { BlogSuggestionInput } from "../../components/dashboard/blog/BlogSuggestionInput";
-import { SuggestedPost } from "../../components/dashboard/blog/SuggestedPost";
+import { BlogSuggestionInput } from "components/dashboard/blog/BlogSuggestionInput";
+import { SuggestedPost } from "components/dashboard/blog/SuggestedPost";
 
 export async function getServerSideProps() {
   return {
     props: {
       title: "Artsy Engineering Blog",
-      message: "Writing office hours are on Monday at 2:30"
-    }
+      message: "Writing office hours are on Monday at 2:30",
+    },
   };
 }
 
@@ -22,8 +22,8 @@ const OutlinedSection = styled(Flex)`
 const suggestedPosts = [
   {
     title: "Introducing Studio, Artsy's developer portal",
-    suggestedBy: "Justin"
-  }
+    suggestedBy: "Justin",
+  },
 ];
 
 const Blog = () => {

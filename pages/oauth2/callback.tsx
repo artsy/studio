@@ -1,12 +1,12 @@
 import { GetServerSideProps } from "next";
-import { H1 } from "../../components/Typography";
+import { H1 } from "components/Typography";
 import fetch from "isomorphic-unfetch";
 import { Flex } from "@artsy/palette";
-import { redirectAuthorizedUsersWithCookie } from "../../lib/auth";
+import { redirectAuthorizedUsersWithCookie } from "lib/auth";
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
-  query
+  query,
 }) => {
   const tokenResults = await fetch(
     "https://stagingapi.artsy.net/oauth2/access_token",
@@ -14,16 +14,16 @@ export const getServerSideProps: GetServerSideProps = async ({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
       },
       body: JSON.stringify({
         client_id: process.env.APP_ID,
         client_secret: process.env.APP_SECRET,
         code: query.code,
-        grant_type: "authorization_code"
-      })
+        grant_type: "authorization_code",
+      }),
     }
-  ).then(res => res.json());
+  ).then((res) => res.json());
 
   await redirectAuthorizedUsersWithCookie(
     res,

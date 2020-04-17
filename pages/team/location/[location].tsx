@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import TeamNav from "../index";
 import { Spinner } from "@artsy/palette";
-import { normalizeParam } from "../../../lib/url";
-import { NoResults } from "../../../components/team/NoResults";
+import { normalizeParam } from "lib/url";
+import { NoResults } from "components/team/NoResults";
 
 // export const getStaticPaths = getPathsForRoute({
 //   route: "location",
@@ -11,7 +11,7 @@ import { NoResults } from "../../../components/team/NoResults";
 
 export { getServerSideProps } from "../index";
 
-const Location = props => {
+const Location = (props) => {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -21,7 +21,7 @@ const Location = props => {
   const location = router.query.location;
   let formattedLocation = "";
 
-  const data = props.data.filter(member => {
+  const data = props.data.filter((member) => {
     if (normalizeParam(member.city) === location) {
       formattedLocation = member.city;
       return true;
