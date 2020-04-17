@@ -123,7 +123,7 @@ module.exports = function ({ types: t, parse }) {
               );
             } else {
               prependCodeToFile(
-                code,
+                parse,
                 program,
                 state,
                 `import Error from "next/error"`
