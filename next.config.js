@@ -11,21 +11,21 @@ const withMDX = require("next-mdx-enhanced")({
         const defaultLayout = __resourcePath.split("/")[0];
         if (
           fs.existsSync(
-            path.join(process.cwd(), `layouts/${defaultLayout}.mdx.tsx`)
+            path.join(process.cwd(), `layouts/${defaultLayout}.tsx`)
           )
         ) {
           return {
-            layout: defaultLayout + ".mdx"
+            layout: defaultLayout,
           };
         }
       } else {
         return {
-          layout: layout + ".mdx"
+          layout: layout,
         };
       }
     },
-    phase: "both"
-  }
+    phase: "both",
+  },
 });
 
 module.exports = withMDX({});
