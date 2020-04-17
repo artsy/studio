@@ -1,5 +1,7 @@
 import { Layout } from "pages/dashboard/_layout";
 
-export default (frontMatter) => {
+const DashboardMDXLayout = (frontMatter) => {
   return ({ children }) => <Layout {...frontMatter}>{children}</Layout>;
 };
+
+export default DashboardMDXLayout;

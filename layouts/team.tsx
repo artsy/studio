@@ -1,7 +1,7 @@
 import { Layout } from "pages/team/_layout";
 import { H1 } from "components/Typography";
 
-export default (frontMatter) => {
+const TeamMDXLayout = (frontMatter) => {
   return ({ children }) => (
     <Layout {...frontMatter} mdx={true}>
       <>
@@ -11,3 +11,5 @@ export default (frontMatter) => {
     </Layout>
   );
 };
+
+export default TeamMDXLayout;
