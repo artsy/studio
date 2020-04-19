@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next";
-import { H1 } from "components/Typography";
+import { H1 } from "@artsy-studio/components";
 import fetch from "isomorphic-unfetch";
 import { Flex } from "@artsy/palette";
-import { redirectAuthorizedUsersWithCookie } from "lib/auth";
+import { redirectAuthorizedUsersWithCookie } from "@artsy/next-auth";
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,

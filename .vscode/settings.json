@@ -1,7 +1,10 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.exclude": {
-    ".mdx-data": true,
-    ".next": true
+    "**/.mdx-data": true,
+    "**/.next": true,
+    ".now": true,
+    "**/.ts-out": true,
+    "**/tsconfig.tsbuildinfo": true
   }
 }

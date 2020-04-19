@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "pretty": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "noEmitOnError": true,
+
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+
+    "baseUrl": "../",
+    "paths": {
+      "@artsy-studio/*": ["libs/*/src"]
+    }
+  },
+  "include": ["../next-env.d.ts"]
+}

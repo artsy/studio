@@ -1039,12 +1039,34 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cookie@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.3.3.tgz#85bc74ba782fb7aa3a514d11767832b0e3bc6803"
+  integrity sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==
+
 "@types/csvtojson@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@types/csvtojson/-/csvtojson-1.1.5.tgz#b1500849bd0a1ef58d93b03a61d889e2d40a912b"
   integrity sha512-REZcfXN1h2JLoSc066GAdUKP2OpNiG3mIpgyjZWB5RKhBOZc5xmAZwavbP6O7vKMZ+jYTqbwUNucMBl7dw68JA==
   dependencies:
     "@types/node" "*"
+
+"@types/debounce@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/debounce/-/debounce-1.2.0.tgz#9ee99259f41018c640b3929e1bb32c3dcecdb192"
+  integrity sha512-bWG5wapaWgbss9E238T0R6bfo5Fh3OkeoSt245CM7JJwVwpw6MEBCbIxLq5z8KzsE3uJhzcIuQkyiZmzV3M/Dw==
+
+"@types/lodash.groupby@^4.6.6":
+  version "4.6.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.groupby/-/lodash.groupby-4.6.6.tgz#4d9b61a4d8b0d83d384975cabfed4c1769d6792e"
+  integrity sha512-kwg3T7Ia63KtDNoQQR8hKrLHCAgrH4I44l5uEMuA6JCbj7DiSccaV4tNV1vbjtAOpX990SolVthJCmBVtRVRgw==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.150"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.150.tgz#649fe44684c3f1fcb6164d943c5a61977e8cf0bd"
+  integrity sha512-kMNLM5JBcasgYscD9x/Gvr6lTAv2NVgsKtet/hm93qMyf/D1pt+7jeEZklKJKxMVmXjxbRVQQGfqDSfipYCO6w==
 
 "@types/node-fetch@^2.5.5":
   version "2.5.5"
@@ -1069,6 +1091,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
+"@types/react-bytesize-icons@^0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@types/react-bytesize-icons/-/react-bytesize-icons-0.6.4.tgz#7169a1c696c769ae7dd7c20032a56bb84811f8a6"
+  integrity sha512-IU8m5szssohOh3qtyoXAuCBTo/jjSVvY7aeuMuMTSFsdibJibpAGN2/eA9t6mRMIikNtvzbAgv+HUgAg/SNxeA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*":
   version "16.9.25"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.25.tgz#6ae2159b40138c792058a23c3c04fd3db49e929e"
@@ -1084,6 +1113,13 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/sharp@^0.24.0":
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/@types/sharp/-/sharp-0.24.0.tgz#28abfeac45b4dcb472305503105322e97a6c2672"
+  integrity sha512-+0WeyJajTSoIacBzonsq856whNJC+cN9FNEs0yZ6hFq/V1CZmlqM8vBRy7TKZunH+gIO7SwDCzgXYWRRbzqfDA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/styled-components@4.0.2":
   version "4.0.2"
@@ -2571,6 +2607,11 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
+date-fns@^2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.12.0.tgz#01754c8a2f3368fc1119cf4625c3dad8c1845ee6"
+  integrity sha512-qJgn99xxKnFgB1qL4jpxU7Q2t0LOn1p8KMIveef3UZD7kqjT3tpFNNdXJelEHhE+rUgffriXriw/sOSU+cS1Hw==
+
 debounce@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
@@ -3983,20 +4024,13 @@ isomorphic-unfetch@^3.0.0:
     node-fetch "^2.2.0"
     unfetch "^4.0.0"
 
-isotopes@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/isotopes/-/isotopes-0.5.1.tgz#429571480320c26bb7d69390e8327a8550919ea9"
-  integrity sha512-4PyfxRpdcybIDjcVftwKAp63grczC4g8wSi4wQ8WBYXh7Jx/C7Vh9j3W5ScWPn+9T7bcHWl7b3m0ZO2vl6zEJA==
+isotopes@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/isotopes/-/isotopes-0.6.0.tgz#115bef7b13716e376431631dc74636d5860c600f"
+  integrity sha512-KiaoD56w1bZYZ6kj73oIj4y0GdqtIEFtNOA53JL6K1hTba//HP13xdaue9Ts6HnwGOvpR9NFTzuJskt5jl2gSw==
   dependencies:
     lodash "^4.17.11"
     squel "^5.12.2"
-
-javascript-time-ago@^2.0.7:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/javascript-time-ago/-/javascript-time-ago-2.0.7.tgz#ed3e4cfae7059d1c3ecc0e7fc253427f0e120636"
-  integrity sha512-NjM8FNqY91lciAE4bIm6KBW1efDt+0T6+08erwaQRu6SzLov8fJ6623LcyxnBN/Xtf4q9O4s5AMxPtStaNz0rA==
-  dependencies:
-    relative-time-format "^0.1.3"
 
 jest-worker@24.9.0:
   version "24.9.0"
@@ -5863,11 +5897,6 @@ regjsparser@^0.6.4:
   integrity sha512-64O87/dPDgfk8/RQqC4gkZoGyyWFIEUTTh80CU6CWuK5vkCGyekIx+oKcEIYtP/RAxSQltCZHCNu/mdd7fqlJw==
   dependencies:
     jsesc "~0.5.0"
-
-relative-time-format@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/relative-time-format/-/relative-time-format-0.1.3.tgz#d50f49d13f97c7f801afba600b1a4a0890755df2"
-  integrity sha512-0O6i4fKjsx8qhz57zorG+LrIDnF9pSvP5s7H9R1Nb5nSqih5dvRyKzNKs6MxhL3bv4iwsz4DuDwAyw+c47QFIA==
 
 remark-mdx@^1.5.7:
   version "1.5.7"

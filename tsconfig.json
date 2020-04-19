@@ -1,25 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": ".",
-    "plugins": [
-      {
-        "name": "typescript-styled-plugin"
-      }
-    ]
-  },
-  "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "libs/models" },
+    { "path": "libs/auth" },
+    { "path": "libs/components" },
+    { "path": "libs/utils" },
+    { "path": "apps/dashboard" },
+    { "path": "apps/team" }
+  ],
+  "exclude": ["node_modules"]
 }

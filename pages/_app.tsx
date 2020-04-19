@@ -3,7 +3,7 @@ import App from "next/app";
 import React from "react";
 import { Theme } from "@artsy/palette";
 import { MDXProvider } from "@mdx-js/react";
-import { H1, H2, P } from "components/Typography";
+import { H1, H2, P } from "libs/studio-components/src/Typography";
 
 export default class MyApp extends App {
   render() {

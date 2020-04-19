@@ -9,12 +9,16 @@
 /coverage
 
 # next.js
-/.next/
+.next
 /out/
 .mdx-data
 
 # production
 /build
+
+# typescript
+*.tsbuildinfo
+.ts-out
 
 # misc
 .DS_Store
