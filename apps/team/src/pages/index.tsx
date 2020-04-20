@@ -85,8 +85,8 @@ export const TeamMember: FC<TeamMemberProps> = (props) => {
 
   return (
     <RouterLink
-      href="/team/member/[member]"
-      as={`/team/member/${normalizeParam(member.name)}`}
+      href="/member/[member]"
+      as={`/member/${normalizeParam(member.name)}`}
       passHref
     >
       <Link underlineBehavior="none">

@@ -2,13 +2,9 @@ import csv from "csvtojson";
 import pLimit from "p-limit";
 import { imageCache } from "@artsy-studio/models";
 import { authorizedEndpoint, Fetcher } from "@artsy-studio/auth";
-import { urlFromReq, hash } from "@artsy-studio/utils";
+import { urlFromReq, hash, capitalize } from "@artsy-studio/utils";
 
 const limit = pLimit(10);
-
-const capitalize = (s: string) => {
-  return s[0].toUpperCase() + s.slice(1).toLowerCase();
-};
 
 const resizeImage = (
   fetch: Fetcher,

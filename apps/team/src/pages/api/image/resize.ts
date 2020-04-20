@@ -33,7 +33,9 @@ export default authorizedEndpoint(async (req, res, fetch) => {
     return;
   }
   const imageUrl = new URL(url);
-  imageUrl.search = "?raw=1";
+  if (imageUrl.href.includes("dropbox")) {
+    imageUrl.search = "?raw=1";
+  }
 
   const resizer = sharp()
     .rotate()
@@ -42,6 +44,12 @@ export default authorizedEndpoint(async (req, res, fetch) => {
   await fetch(imageUrl.href)
     .then((imgRes) => {
       return new Promise((resolve) => {
+        if (!imgRes.headers.get("content-type")?.includes("image")) {
+          res.status(500).send(`${imageUrl} resulted in invalid context type`);
+          res.end();
+          resolve();
+          return;
+        }
         if (imgRes.status >= 400) {
           res.status(404).send(`${imageUrl} couldn't be found`);
           res.end();

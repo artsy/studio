@@ -49,8 +49,8 @@ const aggregateMemberLinks = (
     .map(([fieldValue, group]) => ({
       text: fieldValue,
       count: (group as any)?.length,
-      href: `/team/${prefix}/[${prefix}]`,
-      as: `/team/${prefix}/${normalizeParam(fieldValue)}`,
+      href: `/${prefix}/[${prefix}]`,
+      as: `/${prefix}/${normalizeParam(fieldValue)}`,
     }))
     .filter(({ text }) => text);
 };

@@ -1,18 +1,11 @@
 {
   "extends": "../../config/tsconfig.app.json",
   "references": [
-    {
-      "path": "../../libs/models"
-    },
-    {
-      "path": "../../libs/auth"
-    },
-    {
-      "path": "../../libs/components"
-    },
-    {
-      "path": "../../libs/utils"
-    }
+    { "path": "../../libs/models" },
+    { "path": "../../libs/auth" },
+    { "path": "../../libs/components" },
+    { "path": "../../libs/utils" },
+    { "path": "../../libs/next" }
   ],
   "include": ["src/**/*.tsx", "src/**/*.ts"],
   "exclude": ["node_modules"],

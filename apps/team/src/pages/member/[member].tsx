@@ -12,7 +12,7 @@ import {
   Separator,
 } from "@artsy/palette";
 import Error from "next/error";
-import { normalizeParam } from "@artsy-studio/utils";
+import { normalizeParam, capitalize } from "@artsy-studio/utils";
 import { useMemo, FC } from "react";
 import { H1 } from "@artsy-studio/components";
 import RouterLink from "next/link";
@@ -98,7 +98,10 @@ const Member: FC<ServerProps> = (props) => {
                 >
                   <Flex alignItems="center">
                     <Serif size="4" mr={0.5}>
-                      {formatDistanceToNow(new Date(member.start_date))}
+                      {capitalize(
+                        formatDistanceToNow(new Date(member.start_date))
+                      )}{" "}
+                      ago
                     </Serif>
                   </Flex>
                 </Link>
@@ -151,8 +154,8 @@ const Member: FC<ServerProps> = (props) => {
                 </Serif>
                 <Box style={{ flex: 1 }}>
                   <RouterLink
-                    href={"/team/member/[member]"}
-                    as={`/team/member/${normalizeParam(manager.name)}`}
+                    href={"/member/[member]"}
+                    as={`/member/${normalizeParam(manager.name)}`}
                     passHref
                   >
                     <Link>
