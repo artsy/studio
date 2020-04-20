@@ -1,8 +1,10 @@
 import csv from "csvtojson";
 import pLimit from "p-limit";
 import { imageCache } from "lib/models";
+import { hash } from "lib/utils";
 import { authorizedEndpoint, Fetcher } from "@artsy-studio/auth";
-import { urlFromReq, hash, capitalize } from "@artsy-studio/utils";
+import { urlFromReq } from "@artsy-studio/utils";
+import { capitalize } from "lodash-es";
 
 const limit = pLimit(10);
 

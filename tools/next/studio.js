@@ -1,6 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
+const withTM = require("next-transpile-modules")(["lodash-es"]);
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const withMDX = require("next-mdx-enhanced")({
   layoutPath: "src/layouts",
@@ -57,8 +61,12 @@ module.exports = function withStudio({ webpack: webpackCallback, ...config }) {
     return config;
   };
 
-  return withMDX({
-    webpack: studioWebpack,
-    ...config,
-  });
+  return withBundleAnalyzer(
+    withTM(
+      withMDX({
+        webpack: studioWebpack,
+        ...config,
+      })
+    )
+  );
 };

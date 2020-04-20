@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import TeamNav, { ServerProps } from "../index";
 import { Spinner } from "@artsy/palette";
-import { normalizeParam } from "@artsy-studio/utils";
+import { normalizeParam } from "lib/utils";
 import { NoResults } from "components/NoResults";
 import { FC } from "react";
 import Error from "next/error";

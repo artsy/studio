@@ -11,12 +11,11 @@ import {
 } from "@artsy/palette";
 import { LinkConfig, LinkSection } from "./LinkSection";
 import styled from "styled-components";
-import groupBy from "lodash.groupby";
 import RouteLink from "next/link";
 import Router, { NextRouter, useRouter } from "next/router";
-import { debounce } from "debounce";
+import { debounce, groupBy } from "lodash-es";
 import { useRef, useEffect } from "react";
-import { normalizeParam } from "@artsy-studio/utils";
+import { normalizeParam } from "lib/utils";
 import { Member } from "pages/index";
 
 const search = debounce((router: NextRouter, searchTerm: string) => {

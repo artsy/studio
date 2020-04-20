@@ -12,7 +12,8 @@ import {
   Separator,
 } from "@artsy/palette";
 import Error from "next/error";
-import { normalizeParam, capitalize } from "@artsy-studio/utils";
+import { normalizeParam } from "lib/utils";
+import { capitalize } from "lodash-es";
 import { useMemo, FC } from "react";
 import { H1 } from "@artsy-studio/components";
 import RouterLink from "next/link";

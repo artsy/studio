@@ -14,10 +14,11 @@ import { AvatarFallback } from "components/AvatarFallback";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "components/NoResults";
-import { normalizeParam, urlFromReq, firstIfMany } from "@artsy-studio/utils";
+import { urlFromReq } from "@artsy-studio/utils";
 import { authorizedPage } from "@artsy-studio/auth";
 import { FC } from "react";
 import Error from "next/error";
+import { normalizeParam, firstIfMany } from "lib/utils";
 
 export interface Member {
   name: string;
