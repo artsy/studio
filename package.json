@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "dotenv next dev",
-    "dev:hasura": "docker-compose up -d && hasura console",
     "build": "next build",
     "start": "dotenv next start",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package && tsc --build --incremental"
   },
   "dependencies": {
     "@artsy/palette": "^7.8.0",
