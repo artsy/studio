@@ -1,6 +1,6 @@
 import csv from "csvtojson";
 import pLimit from "p-limit";
-import { imageCache } from "@artsy-studio/models";
+import { imageCache } from "lib/models";
 import { authorizedEndpoint, Fetcher } from "@artsy-studio/auth";
 import { urlFromReq, hash, capitalize } from "@artsy-studio/utils";
 

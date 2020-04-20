@@ -1,7 +1,6 @@
 {
   "extends": "../../config/tsconfig.app.json",
   "references": [
-    { "path": "../../libs/models" },
     { "path": "../../libs/auth" },
     { "path": "../../libs/components" },
     { "path": "../../libs/utils" },
@@ -17,7 +16,8 @@
     "paths": {
       "@artsy-studio/*": ["libs/*/src"],
       "components/*": ["apps/team/src/components/*"],
-      "pages/*": ["apps/team/src/pages/*"]
+      "pages/*": ["apps/team/src/pages/*"],
+      "lib/*": ["apps/team/src/lib/*"]
     }
   }
 }

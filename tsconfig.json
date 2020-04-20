@@ -2,7 +2,6 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "libs/models" },
     { "path": "libs/auth" },
     { "path": "libs/components" },
     { "path": "libs/utils" },

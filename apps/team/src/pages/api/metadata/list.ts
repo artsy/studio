@@ -1,4 +1,4 @@
-import { metadata } from "@artsy-studio/models";
+import { metadata } from "lib/models";
 import { NowRequest, NowResponse } from "@now/node";
 import { authorizedEndpoint } from "@artsy-studio/auth";
 

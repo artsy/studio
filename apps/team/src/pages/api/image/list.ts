@@ -1,4 +1,4 @@
-import { imageCache } from "@artsy-studio/models";
+import { imageCache } from "lib/models";
 import { NowResponse } from "@now/node";
 import { authorizedEndpoint } from "@artsy-studio/auth";
 
