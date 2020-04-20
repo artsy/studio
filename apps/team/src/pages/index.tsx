@@ -10,7 +10,7 @@ import {
 import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { H1 } from "@artsy-studio/components";
-import { AvatarFallback } from "@artsy-studio/components";
+import { AvatarFallback } from "components/AvatarFallback";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "components/NoResults";
