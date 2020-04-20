@@ -1,0 +1,9 @@
+{
+  "extends": "../../config/tsconfig.lib.json",
+  "include": ["src/**/*.tsx", "src/**/*.ts"],
+  "references": [{ "path": "../components" }],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": ".ts-out"
+  }
+}

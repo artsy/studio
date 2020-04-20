@@ -7,19 +7,19 @@ const entries = [
   {
     name: "Home",
     icon: Home,
-    href: "/dashboard"
+    href: "/",
   },
   {
     name: "Blog",
     icon: Compose,
-    href: "/dashboard/blog"
-  }
+    href: "/blog",
+  },
 ];
 
 const size = 32;
 const iconSize = {
   width: size,
-  height: size
+  height: size,
 };
 
 const Menu = styled(Flex)`

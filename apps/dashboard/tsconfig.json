@@ -1,32 +1,20 @@
 {
   "extends": "../../config/tsconfig.app.json",
   "references": [
-    {
-      "path": "../../libs/components"
-    },
-    {
-      "path": "../../libs/utils"
-    }
+    { "path": "../../libs/components" },
+    { "path": "../../libs/utils" },
+    { "path": "../../libs/next" }
   ],
-  "include": [
-    "**/*.tsx",
-    "**/*.ts"
-  ],
+  "include": ["**/*.tsx", "**/*.ts"],
   "compilerOptions": {
     "rootDir": "src",
     "outDir": ".ts-out",
     "paths": {
-      "@artsy-studio/*": [
-        "libs/*/src"
-      ],
-      "components/*": [
-        "apps/dashboard/src/components/*"
-      ]
+      "@artsy-studio/*": ["libs/*/src"],
+      "components/*": ["apps/dashboard/src/components/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
