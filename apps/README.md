@@ -45,11 +45,15 @@ If you want to use any other libraries aside from `@artsy-studio/next` from `lib
 export { Document as default } from "@artsy-studio/next";
 ```
 
+This provides a predefined [Next.js Document Component](https://nextjs.org/docs/advanced-features/custom-document) for the app that sets up styled-components, palette integration, loads font files, and provides style resets.
+
 6. Inside of `src/pages` create a `_app.tsx` file with the following contents
 
 ```typescript
 export { App as default } from "@artsy-studio/next";
 ```
+
+This provides a predefined [Next.js App Component](https://nextjs.org/docs/advanced-features/custom-app) that enables us to use [layouts](#providing-a-page-layout) and setups provider's like Palette's [Theme provider]()
 
 ## Providing a page layout
 
