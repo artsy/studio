@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenv next dev",
-    "build": "next build",
-    "start": "dotenv next start",
+    "dev": "./tools/scripts/dev.sh",
     "postinstall": "patch-package && tsc --build --incremental"
   },
   "dependencies": {

@@ -10,7 +10,7 @@
     "outDir": ".ts-out",
     "paths": {
       "@artsy-studio/*": ["libs/*/src"],
-      "components/*": ["apps/dashboard/src/components/*"]
+      "pages/*": ["apps/studio/src/pages/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true

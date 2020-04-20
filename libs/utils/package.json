@@ -1,8 +1,0 @@
-{
-  "name": "@artsy/studio-utils",
-  "version": "0.0.1",
-  "description": "Shared utilities for Artsy Studio",
-  "main": "index.js",
-  "author": "Zephraph <zephraph@gmail.com>",
-  "license": "MIT"
-}
