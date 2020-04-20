@@ -35,6 +35,7 @@
     "@types/csvtojson": "^1.1.5",
     "@types/debounce": "^1.2.0",
     "@types/lodash.groupby": "^4.6.6",
+    "@types/mdx-js__react": "^1.5.1",
     "@types/node-fetch": "^2.5.5",
     "@types/react": "^16.9.23",
     "@types/react-bytesize-icons": "^0.6.4",
