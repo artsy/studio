@@ -5,6 +5,7 @@
     "**/.next": true,
     ".now": true,
     "**/.ts-out": true,
-    "**/tsconfig.tsbuildinfo": true
+    "**/tsconfig.tsbuildinfo": true,
+    "apps/**/next-env.d.ts": true
   }
 }
