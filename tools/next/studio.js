@@ -36,18 +36,13 @@ const withMDX = require("next-mdx-enhanced")({
 module.exports = function withStudio({ webpack: webpackCallback, ...config }) {
   const studioWebpack = (config, ...args) => {
     config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(/^libs\/(.+)/, (resource) => {
+        const srcPath = path.resolve(__dirname, "../../libs/.ts-out");
+        const libsPath = resource.request.split("/").slice(1).join("/");
+        resource.request = path.join(srcPath, libsPath);
+      }),
       new webpack.NormalModuleReplacementPlugin(
-        /@artsy-studio\/(.+)/,
-        (resource) => {
-          resource.request =
-            resource.request.replace(
-              "@artsy-studio",
-              path.resolve(__dirname, "../../libs")
-            ) + "/.ts-out";
-        }
-      ),
-      new webpack.NormalModuleReplacementPlugin(
-        /^(components|pages|lib)\/(.+)/,
+        /^(components|pages|layouts|utils)\/(.+)/,
         (resource) => {
           const root = path.resolve(__dirname, "../..");
           const project = path.relative(root, resource.context).split("src")[0];

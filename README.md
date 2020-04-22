@@ -26,6 +26,14 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Artsy team members should copy over the .env values from 1pass to get the app to fully work. For our open source friends, some parts of the app may not function.
 
+## To create a new app
+
+This will generate and start a new app for you
+
+```bash
+yarn generate app <app-name>
+```
+
 ## About Artsy
 
 <a href="https://www.artsy.net/">

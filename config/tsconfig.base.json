@@ -20,8 +20,7 @@
 
     "baseUrl": "../",
     "paths": {
-      "@artsy-studio/*": ["libs/*/src"]
+      "libs/*": ["libs/*"]
     }
-  },
-  "include": ["../next-env.d.ts"]
+  }
 }

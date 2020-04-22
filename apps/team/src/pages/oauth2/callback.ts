@@ -1,1 +1,1 @@
-export { default, getServerSideProps } from "@artsy-studio/auth";
+export { default, getServerSideProps } from "libs/auth";

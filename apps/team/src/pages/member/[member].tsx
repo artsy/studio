@@ -12,10 +12,10 @@ import {
   Separator,
 } from "@artsy/palette";
 import Error from "next/error";
-import { normalizeParam } from "lib/utils";
+import { normalizeParam } from "utils";
 import { capitalize } from "lodash-es";
 import { useMemo, FC } from "react";
-import { H1 } from "@artsy-studio/components";
+import { H1 } from "libs/components";
 import RouterLink from "next/link";
 import { Member as MemberType, ServerProps } from "../index";
 

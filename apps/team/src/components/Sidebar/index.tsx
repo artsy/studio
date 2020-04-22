@@ -15,7 +15,7 @@ import RouteLink from "next/link";
 import Router, { NextRouter, useRouter } from "next/router";
 import { debounce, groupBy } from "lodash-es";
 import { useRef, useEffect } from "react";
-import { normalizeParam } from "lib/utils";
+import { normalizeParam } from "utils";
 import { Member } from "pages/index";
 
 const search = debounce((router: NextRouter, searchTerm: string) => {

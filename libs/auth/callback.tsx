@@ -1,6 +1,6 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import { H1 } from "@artsy-studio/components";
+import { H1 } from "libs/components";
 import fetch from "isomorphic-unfetch";
 import { Flex } from "@artsy/palette";
 import { redirectAuthorizedUsersWithCookie } from "./auth";

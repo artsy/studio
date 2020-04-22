@@ -4,56 +4,19 @@ This directory contains all individual applications that make up studio. All app
 
 ## Running an app
 
-To run an app in development mode run `dotenv next dev apps/<app>` from the _root_ of the studio repo.
+To run an app in development mode run `yarn dev <app>`
 
 ## Creating a new app
 
-There are several requirements to creating a new application. These will eventually be automated.
+Creating an app is simple. Just run `yarn generate app <app-name>`.
 
-1. Create a directory of the application's name in `apps`
-2. Add a `babel.config.js` to the application's root with the following contents:
+You app will start automatically in dev mode.
 
-```js
-module.exports = require("../../babel.config");
+If you'd like to just see what would be generated without actually writing anything, run the generator in `dry-run` mode.
+
 ```
-
-3. Add a `tsconfig.json` with the following contents
-
-```json
-{
-  "extends": "../../config/tsconfig.app.json",
-  "include": ["src/**/*.tsx", "src/**/*.ts"],
-  "exclude": ["node_modules"],
-  "references": [
-    { "path": "../../libs/next" }
-  ]
-  "compilerOptions": {
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "rootDir": "src",
-    "outDir": ".ts-out"
-  }
-}
+yarn generate app <app-name> --dry-run
 ```
-
-If you want to use any other libraries aside from `@artsy-studio/next` from `libs` you _must_ add a reference field for that library under `references`. This requirement will eventually be automated.
-
-4. Create a `src` directory with a `pages` directory inside of it.
-5. Inside of `src/pages` create a `_document.tsx` file with the following contents
-
-```typescript
-export { Document as default } from "@artsy-studio/next";
-```
-
-This provides a predefined [Next.js Document Component](https://nextjs.org/docs/advanced-features/custom-document) for the app that sets up styled-components, palette integration, loads font files, and provides style resets.
-
-6. Inside of `src/pages` create a `_app.tsx` file with the following contents
-
-```typescript
-export { App as default } from "@artsy-studio/next";
-```
-
-This provides a predefined [Next.js App Component](https://nextjs.org/docs/advanced-features/custom-app) that enables us to use [layouts](#providing-a-page-layout) and setups provider's like Palette's [Theme provider]()
 
 ## Providing a page layout
 

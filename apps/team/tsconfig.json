@@ -1,12 +1,7 @@
 {
   "extends": "../../config/tsconfig.app.json",
-  "references": [
-    { "path": "../../libs/auth" },
-    { "path": "../../libs/components" },
-    { "path": "../../libs/utils" },
-    { "path": "../../libs/next" }
-  ],
   "include": ["src/**/*.tsx", "src/**/*.ts"],
+  "references": [{ "path": "../../libs" }],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "allowJs": true,
@@ -14,10 +9,8 @@
     "rootDir": "src",
     "outDir": ".ts-out",
     "paths": {
-      "@artsy-studio/*": ["libs/*/src"],
-      "components/*": ["apps/team/src/components/*"],
-      "pages/*": ["apps/team/src/pages/*"],
-      "lib/*": ["apps/team/src/lib/*"]
+      "libs/*": ["libs/*"],
+      "*": ["apps/team/src/*", "*"]
     }
   }
 }

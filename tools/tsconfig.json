@@ -1,0 +1,16 @@
+{
+  "include": ["**/*.tsx", "**/*.ts"],
+  "compilerOptions": {
+    "pretty": true,
+    "rootDir": ".",
+    "outDir": ".ts-out",
+    "moduleResolution": "node",
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "module": "commonjs"
+  }
+}

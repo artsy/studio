@@ -1,0 +1,8 @@
+{
+  "extends": "../config/tsconfig.lib.json",
+  "include": ["**/*.tsx", "**/*.ts"],
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": ".ts-out"
+  }
+}

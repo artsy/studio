@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { NowRequest, NowResponse } from "@now/node";
 import fetch from "isomorphic-unfetch";
 import { IncomingMessage, ServerResponse } from "http";
-import { urlFromReq } from "@artsy-studio/utils";
+import { urlFromReq } from "libs/utils";
 
 const COOKIE_NAME = "artsy-studio-user-token";
 type Context = Parameters<GetServerSideProps>[0];

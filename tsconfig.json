@@ -2,11 +2,11 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "libs/auth" },
-    { "path": "libs/components" },
-    { "path": "libs/utils" },
+    { "path": "tools" },
+    { "path": "libs" },
     { "path": "apps/dashboard" },
-    { "path": "apps/team" }
+    { "path": "apps/team" },
+    { "path": "apps/studio" }
   ],
   "exclude": ["node_modules"]
 }

@@ -1,16 +1,12 @@
 {
   "extends": "../../config/tsconfig.app.json",
-  "references": [
-    { "path": "../../libs/components" },
-    { "path": "../../libs/utils" },
-    { "path": "../../libs/next" }
-  ],
-  "include": ["**/*.tsx", "**/*.ts"],
+  "include": ["src/**/*.tsx", "src/**/*.ts", "next-env.d.ts"],
+  "references": [{ "path": "../../libs" }],
   "compilerOptions": {
     "rootDir": "src",
     "outDir": ".ts-out",
     "paths": {
-      "@artsy-studio/*": ["libs/*/src"],
+      "libs/*": ["libs/*"],
       "components/*": ["apps/dashboard/src/components/*"]
     },
     "allowJs": true,

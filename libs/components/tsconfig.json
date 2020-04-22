@@ -1,8 +1,0 @@
-{
-  "extends": "../../config/tsconfig.lib.json",
-  "include": ["src/**/*.tsx", "src/**/*.ts"],
-  "compilerOptions": {
-    "rootDir": "src",
-    "outDir": ".ts-out"
-  }
-}

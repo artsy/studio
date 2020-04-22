@@ -1,4 +1,4 @@
-import { H1 } from "@artsy-studio/components";
+import { H1 } from "libs/components";
 import { useRouter } from "next/router";
 import { Flex, Link } from "@artsy/palette";
 import RouterLink from "next/link";

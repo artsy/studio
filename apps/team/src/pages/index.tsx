@@ -9,16 +9,16 @@ import {
 } from "@artsy/palette";
 import styled from "styled-components";
 import { GetServerSideProps } from "next";
-import { H1 } from "@artsy-studio/components";
+import { H1 } from "libs/components";
 import { AvatarFallback } from "components/AvatarFallback";
 import RouterLink from "next/link";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "components/NoResults";
-import { urlFromReq } from "@artsy-studio/utils";
-import { authorizedPage } from "@artsy-studio/auth";
+import { urlFromReq } from "libs/utils";
+import { authorizedPage } from "libs/auth";
 import { FC } from "react";
 import Error from "next/error";
-import { normalizeParam, firstIfMany } from "lib/utils";
+import { normalizeParam, firstIfMany } from "utils";
 
 export interface Member {
   name: string;

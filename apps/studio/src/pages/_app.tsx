@@ -1,1 +1,1 @@
-export { App as default } from "@artsy-studio/next";
+export { App as default } from "libs/next";

@@ -1,6 +1,6 @@
-import { metadata } from "lib/models";
+import { metadata } from "utils/models";
 import { NowRequest, NowResponse } from "@now/node";
-import { authorizedEndpoint } from "@artsy-studio/auth";
+import { authorizedEndpoint } from "libs/auth";
 
 export default authorizedEndpoint(
   async (_req: NowRequest, res: NowResponse) => {

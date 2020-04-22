@@ -3,7 +3,7 @@ import NextApp from "next/app";
 import React from "react";
 import { Theme } from "@artsy/palette";
 import { MDXProvider } from "@mdx-js/react";
-import { H1, H2, P } from "@artsy-studio/components";
+import { H1, H2, P } from "libs/components";
 
 export class App extends NextApp {
   render() {

@@ -1,9 +1,9 @@
 import sharp from "sharp";
 import S3 from "aws-sdk/clients/s3";
 import stream from "stream";
-import { env } from "@artsy-studio/utils";
-import { authorizedEndpoint } from "@artsy-studio/auth";
-import { hash } from "lib/utils";
+import { env } from "libs/utils";
+import { authorizedEndpoint } from "libs/auth";
+import { hash } from "utils";
 
 const streamToS3 = (
   s3: S3,

@@ -1,10 +1,11 @@
 import csv from "csvtojson";
 import pLimit from "p-limit";
-import { imageCache } from "lib/models";
-import { hash } from "lib/utils";
-import { authorizedEndpoint, Fetcher } from "@artsy-studio/auth";
-import { urlFromReq } from "@artsy-studio/utils";
+import { imageCache } from "utils/models";
+import { hash } from "utils";
+import { authorizedEndpoint, Fetcher } from "libs/auth";
+import { urlFromReq } from "libs/utils";
 import { capitalize } from "lodash-es";
+import type { Member } from "../../index";
 
 const limit = pLimit(10);
 
@@ -64,7 +65,7 @@ export default authorizedEndpoint(async (req, res, fetch) => {
     return;
   }
 
-  const parsed = await fetch(SHEETS_URL)
+  const parsed: Member[] = await fetch(SHEETS_URL)
     .then((res) => res.text())
     .then((csvContent) => csv().fromString(csvContent));
 

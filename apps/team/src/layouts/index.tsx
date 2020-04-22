@@ -1,5 +1,5 @@
 import { Layout } from "../pages/_layout";
-import { H1 } from "@artsy-studio/components";
+import { H1 } from "libs/components";
 import { PropsWithChildren } from "react";
 
 const TeamMDXLayout = (frontMatter: any) => {
