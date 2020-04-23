@@ -1,4 +1,20 @@
 {
+  "version": 2,
+  "build": {
+    "env": {
+      "BUILDING_FOR_NOW": "true"
+    }
+  },
+  "builds": [
+    { "src": "apps/dashboard/package.json", "use": "@now/next" },
+    { "src": "apps/studio/package.json", "use": "@now/next" },
+    { "src": "apps/team/package.json", "use": "@now/next" }
+  ],
+  "routes": [
+    { "src": "/dashboard(.*)", "dest": "apps/dashboard/$1" },
+    { "src": "/team(.*)", "dest": "apps/team/$1" },
+    { "src": "(.*)", "dest": "apps/studio/$1" }
+  ],
   "env": {
     "SHEETS_URL": "@studio-sheets-url",
     "ACCESS_KEY_ID": "@studio-access-key-id",

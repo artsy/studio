@@ -6,6 +6,13 @@ import {
 import { command } from "./helpers/command";
 import { spawn } from "child_process";
 import { blue } from "kleur";
+import fs from "fs";
+
+const pkg = JSON.parse(
+  fs.readFileSync(`${__dirname}/../../package.json`, {
+    encoding: "utf-8",
+  })
+);
 
 const generators: FileGenerator[] = [
   {
@@ -54,6 +61,36 @@ const generators: FileGenerator[] = [
     filePath: "src/pages/_document.tsx",
     content: `export { Document as default } from "libs/next";`,
   },
+  {
+    filePath: "next.config.js",
+    content: (app) => `
+      const assetPrefix = process.env.BUILDING_FOR_NOW ? "/${app}" : "";
+      const withStudio = require("../../tools/next/studio");
+
+      module.exports = withStudio({
+        assetPrefix,
+        env: {
+          ASSET_PREFIX: assetPrefix,
+        },
+      });
+    `,
+  },
+  {
+    filePath: "package.json",
+    content: (app) => `
+      {
+        "name": "${app}",
+        "private": true,
+        "description": "GENERATED, DO NOT EDIT",
+        "scripts": {
+          "now-build": "../../tools/scripts/build.sh"
+        },
+        "dependencies": {
+          "next": "${pkg.dependencies.next}"
+        }
+      }
+    `,
+  },
 ];
 
 const modifiers: FileModifier[] = [
@@ -64,6 +101,22 @@ const modifiers: FileModifier[] = [
       const tsconfig = JSON.parse(content);
       tsconfig.references.push({ path: defaultBasePath });
       return JSON.stringify(tsconfig);
+    },
+  },
+  {
+    basePath: "",
+    filePath: "now.json",
+    modifier: (content, { name, defaultBasePath }) => {
+      const now = JSON.parse(content);
+      now.builds.unshift({
+        src: `${defaultBasePath}/package.json`,
+        use: "@now/next",
+      });
+      now.routes.unshift({
+        src: `/${name}(.*)`,
+        dest: `${defaultBasePath}/$1`,
+      });
+      return JSON.stringify(now);
     },
   },
 ];

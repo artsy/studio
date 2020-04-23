@@ -2,11 +2,16 @@
   "name": "studio",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
     "generate": "ts-node-script tools/scripts/generate",
     "analyze": "./tools/scripts/analyze.sh",
     "dev": "./tools/scripts/dev.sh",
-    "postinstall": "patch-package && tsc --build --incremental"
+    "postinstall": "patch-package && tsc --build --incremental",
+    "prepare": "node ./tools/scripts/prepare"
   },
   "dependencies": {
     "@artsy/palette": "^7.8.0",

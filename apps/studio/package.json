@@ -1,0 +1,11 @@
+{
+  "name": "studio",
+  "private": true,
+  "description": "GENERATED, DO NOT EDIT",
+  "scripts": {
+    "now-build": "../../tools/scripts/build.sh"
+  },
+  "dependencies": {
+    "next": "^9.3.5"
+  }
+}

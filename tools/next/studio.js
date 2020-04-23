@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
-const withTM = require("next-transpile-modules")(["lodash-es"]);
+const withTM = require("next-transpile-modules")(["lodash-es", "libs"]);
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
@@ -35,21 +35,11 @@ const withMDX = require("next-mdx-enhanced")({
 
 module.exports = function withStudio({ webpack: webpackCallback, ...config }) {
   const studioWebpack = (config, ...args) => {
-    config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(/^libs\/(.+)/, (resource) => {
-        const srcPath = path.resolve(__dirname, "../../libs/.ts-out");
-        const libsPath = resource.request.split("/").slice(1).join("/");
-        resource.request = path.join(srcPath, libsPath);
-      }),
-      new webpack.NormalModuleReplacementPlugin(
-        /^(components|pages|layouts|utils)\/(.+)/,
-        (resource) => {
-          const root = path.resolve(__dirname, "../..");
-          const project = path.relative(root, resource.context).split("src")[0];
-          resource.request = path.join(root, project, "src", resource.request);
-        }
-      )
-    );
+    config.resolve.modules = ["src", "node_modules"];
+    if (!config.resolve.alias) {
+      config.resolve.alias = {};
+    }
+    config.resolve.alias.libs = path.resolve(__dirname, "../../libs");
     if (webpackCallback) {
       return webpackCallback(config, ...args);
     }
