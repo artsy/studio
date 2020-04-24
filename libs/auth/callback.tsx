@@ -35,12 +35,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   return { props: {} };
 };
 
-const FailedToAuth = () => {
+export const AuthFallback = () => {
   return (
     <Flex height="100%" justifyContent="center" alignItems="center">
       <H1>You're not authorized to view this page.</H1>
     </Flex>
   );
 };
-
-export default FailedToAuth;

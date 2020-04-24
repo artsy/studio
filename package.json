@@ -10,8 +10,7 @@
     "generate": "ts-node-script tools/scripts/generate",
     "analyze": "./tools/scripts/analyze.sh",
     "dev": "./tools/scripts/dev.sh",
-    "postinstall": "patch-package && tsc --build --incremental",
-    "prepare": "node ./tools/scripts/prepare"
+    "postinstall": "patch-package && tsc --build --incremental"
   },
   "dependencies": {
     "@artsy/palette": "^7.8.0",
@@ -22,6 +21,7 @@
     "fast-memoize": "^2.5.2",
     "isomorphic-unfetch": "^3.0.0",
     "isotopes": "^0.6.0",
+    "jwt-decode": "^2.2.0",
     "lodash-es": "^4.17.15",
     "next": "^9.3.5",
     "next-mdx-enhanced": "^2.4.0",
@@ -37,6 +37,7 @@
     "@now/node": "^1.5.0",
     "@types/cookie": "^0.3.3",
     "@types/csvtojson": "^1.1.5",
+    "@types/jwt-decode": "^2.2.1",
     "@types/lodash-es": "^4.17.3",
     "@types/mdx-js__react": "^1.5.1",
     "@types/node-fetch": "^2.5.5",

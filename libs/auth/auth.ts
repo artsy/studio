@@ -5,6 +5,7 @@ import { NowRequest, NowResponse } from "@now/node";
 import fetch from "isomorphic-unfetch";
 import { IncomingMessage, ServerResponse } from "http";
 import { urlFromReq } from "libs/utils";
+import decode from "jwt-decode";
 
 const COOKIE_NAME = "artsy-studio-user-token";
 type Context = Parameters<GetServerSideProps>[0];
@@ -75,17 +76,8 @@ export const verifyServerSideAuthorization = async (context: Context) => {
   }
 };
 
-const getUserDetails = async (token: string) =>
-  fetch("https://stagingapi.artsy.net/api/v1/me", {
-    method: "GET",
-    headers: {
-      "X-Access-Token": token,
-      Accept: "application/json",
-    },
-  }).then((res) => res.json());
-
 export const checkUserAuthorization = async (token: string) => {
-  const [_, user] = await to(getUserDetails(token));
+  const user = decode<{ roles: string[] }>(token);
   if (user?.roles?.includes("team")) {
     return true;
   }
@@ -104,7 +96,7 @@ export const verifyCookie = (req: IncomingMessage, res: ServerResponse) => {
 };
 
 export const setUserCookie = async (res: ServerResponse, token: string) => {
-  const user = await getUserDetails(token);
+  const user = decode<{ roles: string[] }>(token);
   if (user?.roles?.includes("team")) {
     cookie.create(
       res,
@@ -116,9 +108,9 @@ export const setUserCookie = async (res: ServerResponse, token: string) => {
         },
       },
       {
-        secure: false,
+        secure: process.env.NODE_ENV === "development" ? false : true,
         sameSite: "lax",
-        httpOnly: false,
+        httpOnly: true,
         path: "/",
       },
       process.env.COOKIE_SECRET,
@@ -136,6 +128,7 @@ export const redirectAuthorizedUsersWithCookie = async (
   redirectUrl: string
 ) => {
   const [error] = await to(setUserCookie(res, token));
+  console.log("error setting user cookie?", error);
   if (!error) {
     res.writeHead(302, {
       Location: redirectUrl,
