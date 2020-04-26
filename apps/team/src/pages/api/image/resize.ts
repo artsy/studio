@@ -36,6 +36,19 @@ export default authorizedEndpoint(async (req, res, fetch) => {
   const imageUrl = new URL(url);
   if (imageUrl.href.includes("dropbox")) {
     imageUrl.search = "?raw=1";
+  } else if (imageUrl.href.includes("drive.google.com")) {
+    const imageId = imageUrl.href
+      .split("https://drive.google.com/file/d/")[1]
+      ?.split("/")[0];
+    console.log(imageId);
+    if (true) {
+      console.error("Improperly formatted drive URL:", imageUrl.href);
+      res.status(422).send("Unable to process image " + imageUrl.href);
+      res.end();
+      return;
+    }
+    imageUrl.href = "https://drive.google.com/uc";
+    imageUrl.search = `?id=${imageId}`;
   }
 
   const resizer = sharp()

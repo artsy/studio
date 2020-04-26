@@ -4,5 +4,9 @@ import { authorizedEndpoint } from "libs/auth";
 
 export default authorizedEndpoint(async (_, res: NowResponse) => {
   const results = await imageCache.list();
-  res.status(200).send(JSON.stringify(results));
+  if (results) {
+    res.status(200).send(JSON.stringify(results));
+  } else {
+    res.status(404).send("No results");
+  }
 });

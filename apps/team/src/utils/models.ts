@@ -57,18 +57,29 @@ class Metadata {
   async select(
     callback: (
       query: IsotopeSelect<ImageCacheModel>
-    ) => IsotopeSelect<ImageCacheModel>
+    ) => IsotopeSelect<ImageCacheModel>,
+    cursor?: string
   ): Promise<IsotopeResult<ImageCacheModel>> {
     await this.init();
-    return this.model.select(callback(this.model.getQueryBuilder()));
+    return this.model.select(callback(this.model.getQueryBuilder()), cursor);
   }
 }
 
 export const metadata = new Metadata();
 
 export const imageCache = {
-  list() {
-    return metadata.select((query) => query.where("`type` LIKE ?", "%image%"));
+  async list() {
+    let allItems: ImageCacheModel[] = [];
+    let cursor: string | undefined;
+    do {
+      const { items, next } = await metadata.select(
+        (query) => query.where("`type` LIKE ?", "%image%"),
+        cursor
+      );
+      allItems = allItems.concat(items);
+      cursor = next;
+    } while (cursor);
+    return allItems;
   },
   clear() {
     return this.list();
@@ -80,6 +91,7 @@ export const imageCache = {
     return metadata.set({ id: `image-${id}`, type: "image", imageUrl });
   },
   delete(id: string) {
-    return metadata.delete(`image-${id}`);
+    console.log(`Deleting... ${id}`);
+    return metadata.delete(id.startsWith("image-") ? id : `image-${id}`);
   },
 };

@@ -26,7 +26,7 @@ const search = debounce((router: NextRouter, searchTerm: string) => {
     "[org]",
     "[team]",
   ].some((route) => router.pathname.endsWith(route));
-  const pathname = searchFromCurrentPath ? router.pathname : "/team";
+  const pathname = searchFromCurrentPath ? router.pathname : "/";
   const as = pathname.match(/\[[\w-]+\]/)
     ? router.asPath.split("?")[0]
     : undefined;
@@ -72,11 +72,11 @@ const helpfulLinks: LinkConfig[] = [
   },
   {
     text: "Who is New?",
-    href: "/team/who-is-new",
+    href: "/who-is-new",
   },
   {
     text: "Did you know?",
-    href: "/team/did-you-know",
+    href: "/did-you-know",
   },
 ];
 
@@ -119,7 +119,7 @@ export const Sidebar = ({ data }: SidebarProps) => {
       mr={3}
     >
       <Box position="fixed" bg="white" width="390px">
-        <RouteLink href="/team" passHref>
+        <RouteLink href="/" passHref>
           <Link underlineBehavior="hover">
             <Sans size="3" weight="medium" my={1}>
               Team Navigator

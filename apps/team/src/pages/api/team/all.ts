@@ -5,7 +5,7 @@ import { hash } from "utils";
 import { authorizedEndpoint, Fetcher } from "libs/auth";
 import { urlFromReq } from "libs/utils";
 import { capitalize } from "lodash-es";
-import type { Member } from "../../index";
+import { Member } from "../../index";
 
 const limit = pLimit(10);
 
@@ -22,7 +22,8 @@ const resizeImage = (
   )
     .then((res) => {
       if (!res.ok) {
-        throw new Error(`Couldn't result image ${imageUrl}`);
+        console.error(`Couldn't resize image ${imageUrl}`);
+        return "";
       }
       return res.text();
     })
