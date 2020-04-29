@@ -1,4 +1,4 @@
-import RouteLink from "next/link";
+import { Link as RouteLink } from "libs/components";
 import { Flex, Sans, Serif, Link, color } from "@artsy/palette";
 import { External } from "react-bytesize-icons";
 import { useRouter } from "next/router";

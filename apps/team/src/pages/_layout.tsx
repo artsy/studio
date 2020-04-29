@@ -37,9 +37,13 @@ export const Layout: React.FC<TeamProps> = ({ children, ...props }) => {
       <Error statusCode={props.errorCode} title={props.errorMessage}></Error>
     );
   }
-  const { data = [], error } = useSWR("/api/team/all", fetcher, {
-    initialData: props.data,
-  });
+  const { data = [], error } = useSWR(
+    `${process.env.ASSET_PREFIX ?? ""}/api/team/all`,
+    fetcher,
+    {
+      initialData: props.data,
+    }
+  );
   return (
     <Flex height="100%">
       <Sidebar {...props} data={data} />

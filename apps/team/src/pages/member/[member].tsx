@@ -16,7 +16,7 @@ import { normalizeParam } from "utils";
 import { capitalize } from "lodash-es";
 import { useMemo, FC } from "react";
 import { H1 } from "libs/components";
-import RouterLink from "next/link";
+import { Link as RouterLink } from "libs/components";
 import { Member as MemberType, ServerProps } from "../index";
 
 export { getServerSideProps } from "../index";

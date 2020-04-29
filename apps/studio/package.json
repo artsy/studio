@@ -6,6 +6,6 @@
     "now-build": "../../tools/scripts/build.sh"
   },
   "dependencies": {
-    "next": "^9.3.5"
+    "next": "^9.3.6"
   }
 }

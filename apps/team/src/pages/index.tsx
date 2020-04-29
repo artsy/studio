@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { GetServerSideProps } from "next";
 import { H1 } from "libs/components";
 import { AvatarFallback } from "components/AvatarFallback";
-import RouterLink from "next/link";
+import { Link as RouterLink } from "libs/components";
 import { useRouter } from "next/router";
 import { NoResults as DefaultNoResults } from "components/NoResults";
 import { urlFromReq } from "libs/utils";

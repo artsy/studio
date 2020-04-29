@@ -11,7 +11,7 @@ import {
 } from "@artsy/palette";
 import { LinkConfig, LinkSection } from "./LinkSection";
 import styled from "styled-components";
-import RouteLink from "next/link";
+import { Link as RouteLink } from "libs/components";
 import Router, { NextRouter, useRouter } from "next/router";
 import { debounce, groupBy } from "lodash-es";
 import { useRef, useEffect } from "react";

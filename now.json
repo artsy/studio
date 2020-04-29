@@ -12,6 +12,10 @@
   ],
   "routes": [
     { "src": "/dashboard(.*)", "dest": "apps/dashboard/$1" },
+    {
+      "src": "/team/_next/(.*)/pages/team/(.*)",
+      "dest": "apps/team/_next/$1/pages/$2"
+    },
     { "src": "/team(.*)", "dest": "apps/team/$1" },
     { "src": "(.*)", "dest": "apps/studio/$1" }
   ],

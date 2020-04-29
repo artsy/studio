@@ -1,7 +1,7 @@
 import { H1 } from "libs/components";
 import { useRouter } from "next/router";
 import { Flex, Link } from "@artsy/palette";
-import RouterLink from "next/link";
+import { Link as RouterLink } from "libs/components";
 
 interface NoResultsProps {
   page?: string;
@@ -20,7 +20,7 @@ export const NoResults = ({ page }: NoResultsProps) => {
         <i>{decodeURI(router.query.search as string)}</i> {page && `in ${page}`}
       </H1>
       {page && (
-        <RouterLink href={"/team?search=" + router.query.search} passHref>
+        <RouterLink href={"/?search=" + router.query.search} passHref>
           <Link>Search the whole team</Link>
         </RouterLink>
       )}

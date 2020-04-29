@@ -1,6 +1,6 @@
 import { Flex, space, color } from "@artsy/palette";
 import { Home, Compose } from "react-bytesize-icons";
-import Link from "next/link";
+import { Link } from "libs/components";
 import styled from "styled-components";
 
 const entries = [
