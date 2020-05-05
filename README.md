@@ -4,9 +4,7 @@
 
 ---
 
-We apply keystrokes instead of brushstrokes and paint in pixels instead of pigments so our studio is adapted to this medium.
-
-This is the space where we can put our tools and guide our thoughts to assist us in our mission to bring more art to the world.
+This project is just an experiment and not something actively used at Artsy. It seeks to answer the question, if Artsy had something like Spotify's backstage, what would that look like? 
 
 ## Getting Started
 
